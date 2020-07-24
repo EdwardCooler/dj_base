@@ -1,0 +1,127 @@
+#include("/WEB-INF/admin/common/header.html")
+<body class="childrenBody">
+	<form class="layui-form layui-form-search">
+		<div class="layui-inline">
+		     <a #shiroHasPermission('security:org:add') class="layui-btn layui-add" ><i class="layui-icon"></i>添加</a>	
+		</div>
+	</form>	
+	<div class="layui-form  data-table-Wrapper">
+		<a  onclick="tableReload()"></a>
+		<table  id="org" lay-filter="org"></table>		
+		<script type="text/html" id="operation">
+			<div class="operation">
+				<a #shiroHasPermission('security:org:edit') class="view" href="javascript:;"  lay-event="edit"> 编辑</a>
+				<a #shiroHasPermission('security:org:delete') class="view" href="javascript:;"  lay-event="delete"> 删除</a>
+			</div>
+		</script>
+	</div>
+	
+	<script type="text/javascript" src="#(BASE_PATH)/static/layuiadmin/layui/layui.js"></script>
+	<script>
+	var tableIns;
+	layui.use(['table','laydate','form','jquery'],function(){
+		var table = layui.table,
+		 	form = layui.form,
+		 	$ = layui.jquery;
+			
+		
+		
+		   tableIns = table.render({
+		        elem: '#org',
+		        height: 'full-80', //容器高度
+		        url: '#(BASE_PATH)/security/org/pageJson',
+		        page: true,
+		        limit:20,
+		        cellMinWidth: 80,
+		        id: 'org',
+		        cols: [[
+
+		                {type: 'numbers', title: '序号',unresize:true},
+		                {field: 'displayorder', title: '排序',unresize:true},
+		                {field: 'name', title: '部门名称',unresize:true},
+		                {field: 'description', title: '描述',unresize:true},
+		                {field: 'parentName', title: '上级部门',unresize:true},
+		                {title: '操作', toolbar: '#operation',width:162,unresize:true},
+		                ]],  
+		               done: function(res, curr, count) {
+		                                   
+		               },
+		        loading: true,
+		    });
+		 
+		  //查询
+		  form.on('submit(orgsearch)', function(data) {
+			  console.log(data)
+		        tableIns.reload({
+		            where: data.field
+		        });		       
+		        return false; 
+		    });
+	
+		  
+		   //添加
+		  $(".layui-add").click(function(){
+			  layer.load();
+              layer.open({
+                  title: "添加菜单",
+                  type: 2,
+                  shade: 0.4,
+                  content: '#(BASE_PATH)/security/org/add',
+                  area: ['600px', '450px'],
+                  shadeClose: true,   
+                  cancel :function(){
+                  	tableIns.reload({})
+                  },
+                  success: function(layero, index){
+                	  layer.closeAll('loading');
+                  }
+              	});             				
+			 })  
+			 
+	 //监听工具条
+		  table.on('tool(org)', function(obj){
+		    var data = obj.data;
+		    var id=data.id;
+		    if(obj.event === 'edit'){ 
+		    	layer.load();
+	              layer.open({
+	                  title: "修改公司",
+	                  type: 2,
+	                  shade: 0.4,
+	                  content: '#(BASE_PATH)/security/org/edit/'+id,
+	                  area: ['600px', '450px'],
+	                  shadeClose: true,   
+	                  cancel :function(){
+	                  	tableIns.reload({})
+	                  },
+	                  success: function(layero, index){
+	                	  layer.closeAll('loading');
+	                  }
+	              });           
+	  			
+		    }else if(obj.event === 'delete'){
+		    	layer.confirm('确认要删除吗？', {
+		            btn : [ '确定', '取消' ]
+		        }, function(index) {
+		        	$.ajax({
+		        		 type:'get',	
+		        		 url:'#(BASE_PATH)/security/org/delete/'+id,       		  		       		  		       		 
+			       		 success:function(msg){
+			       			obj.del();			       		
+			       			layer.msg("删除成功", {time: 1000});
+			       			tableIns.reload();
+			       		 }
+		       	  }) 
+		        }); 
+		    }
+		 })
+		 
+	})
+	function tableReload(){
+			tableIns.reload({});	
+		}
+	</script>
+</body>
+</html>
+
+

@@ -1,0 +1,4 @@
+2018-12-13 18:10:42.621 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Starting Shiro environment initialization.
+2018-12-13 18:10:43.140 [INFO ] org.apache.shiro.cache.ehcache.EhCacheManager - Using existing EHCache named [shiro-authorizationCache]
+2018-12-13 18:10:43.153 [INFO ] org.apache.shiro.config.IniSecurityManagerFactory - Realms have been explicitly set on the SecurityManager instance - auto-setting of realms will not occur.
+2018-12-13 18:10:43.158 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Shiro environment initialized in 535 ms.

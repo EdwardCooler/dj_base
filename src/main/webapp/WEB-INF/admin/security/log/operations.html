@@ -1,0 +1,190 @@
+#include("/WEB-INF/admin/common/header.html")
+<body class="childrenBody">
+
+	<form class="layui-form layui-form-search">
+		<div class="layui-inline">
+		    <!-- <div class="layui-input-inline">
+            	<label>模板名称：</label>
+		    </div>
+		    <div class="layui-input-inline">
+		    	<input type="text"  class="layui-input" name="telSearch">
+		    </div> -->
+		    <div class="layui-input-inline">
+		    	<label>日志类型：</label>
+		    </div>
+		    <div class="layui-input-inline">
+		    	<select name="typeSearch" lay-filter="regist">
+		    		<!-- <option value="">请选择</option> -->
+			        #for(table1 : table)
+					    <option value="#(table1.TABLE_NAME)">#(table1.TABLE_COMMENT)</option>
+					#end
+			    </select>	
+			</div>
+			  从
+			<div class="layui-input-inline">
+				<input type="text" class="layui-input" id="starttime"  name="starttime" placeholder="">
+		    </div>
+		   	 到
+		   	<div class="layui-input-inline">
+		   	 	<input type="text" class="layui-input" id="endtime" name="endtime" placeholder="">
+		   	</div> 
+		   	
+		   	
+		    <button class="layui-btn layui-search" lay-submit lay-filter="msgSearch"><i class="layui-icon">&#xe615;</i>查询</button>		
+			<!-- <a class="layui-btn layui-add" ><i class="layui-icon"></i>添加</a>	 -->
+		</div>
+	</form>	
+	<div class="layui-form  data-table-Wrapper">
+		<!-- <a  onclick="tableReload()"></a> -->
+		<table  id="msgApiMore" lay-filter="msgApiMore"></table>		
+		<!-- <script type="text/html" id="operation">
+			<div class="operation">
+				<a class="view" href="javascript:;"  lay-event="edit"> 编辑</a>
+   				<a class="view" href="javascript:;"  lay-event="delete"> 删除</a>
+			</div>
+		</script>
+		 -->	
+	</div>
+			
+<script type="text/javascript" src="#(BASE_PATH)/static/layuiadmin/layui/layui.js"></script>
+<script>
+	var tableIns;
+	layui.use(['table','laydate','form','jquery','element'],function(){
+		var table = layui.table,
+		 	form = layui.form,
+		 	laydate = layui.laydate,
+		 	$ = layui.jquery,
+		 	element = layui.element;
+		  laydate.render({
+			    elem: '#starttime'
+			    ,type: 'datetime'
+		  });
+		  laydate.render({
+			    elem: '#endtime'
+			    ,type: 'datetime'
+		  });
+	//短信发送记录页面
+	   tableIns = table.render({
+	        elem: '#msgApiMore',
+	        height: 'full-80', //容器高度
+	        url: '#(BASE_PATH)/security/log/pageJson?tableName=#(table.get(0).TABLE_NAME)',
+	        page: true,
+	        limit:20,
+	        cellMinWidth: 80,
+	        id: 'msgApiMore',
+	        cols: [[
+	        		{type: 'numbers', title: '排序',unresize:true},
+	        		#for(tableOne1:tableOne)
+	        			#if(tableOne1.columnName!='id')
+	        				{field: '#(tableOne1.columnName)', title: '#if(tableOne1.columnComment=='')#(tableOne1.columnName)#else#(tableOne1.columnComment)#end',unresize:true},
+		            	#end
+	        		#end    
+		            //{title: '操作', toolbar: '#operation',width:162,unresize:true},
+	                ]],  
+	               done: function(res, curr, count) {
+	                                   
+	               },
+	        loading: true,
+	    });
+		 
+	  //查询
+	  form.on('submit(msgSearch)', function(data) {
+		  console.log(data)
+		  $.ajax({
+        		 type:'get',	
+        		 url:'#(BASE_PATH)/security/log/tableData/'+data.field.typeSearch,       		  		       		  		       		 
+	       		 success:function(msg){ 
+	       			var cols = new Array();
+	       			var str = {type: 'numbers', title: '排序',unresize:true};
+	       			cols.push(str);
+	       			for(tableDataindex in msg.tableData){
+	       				var tableData1 = msg.tableData[tableDataindex];
+	        			if(tableData1.columnName!="id"){
+	        				 str = {field: tableData1.columnName, title:(tableData1.columnComment==''?tableData1.columnName:tableData1.columnComment),unresize:true};
+	        				 cols.push(str);
+	        			}
+	        		}  
+	       			 tableIns.reload({
+		    	            where: data.field,
+		    	            cols: [cols],
+		    	            done:function(res, curr, count){
+		    	            	console.log(res)
+		    	            }
+		    	     });	
+	       		}
+		   })
+	       return false; 
+	    });
+	 //添加
+	  $(".layui-add").click(function(){
+         $(window).one("resize",function(){					
+    			var index = layui.layer.open({
+    				title : "添加短信模板",
+    				type : 2,
+    				shade: 0.4,
+    				content : '#(BASE_PATH)/security/notesetting/msgApiAdd',
+    				area: ['520px', '550px'],
+    				success : function(layero, index){
+    					setTimeout(function(){
+    						layui.layer.tips('点击此处返回用户管理', '.layui-layer-setwin .layui-layer-close', {
+    							tips: 3
+    						});
+    					},500)
+    				}
+    			})			
+    			//layui.layer.full(index);
+
+    		}).resize(); 
+		 })  
+	   //监听工具条
+		  table.on('tool(msgApiMore)', function(obj){
+		    var data = obj.data;
+		    var id=data.id;
+		    if(obj.event === 'edit'){ 
+		    	  $(window).one("resize",function(){					
+		    			var index = layui.layer.open({
+		    				title : "编辑短信模板",
+		    				type : 2,
+		    				shade: 0.4,
+		    				content : '#(BASE_PATH)/security/notesetting/msgApiEdit/'+id,
+		    				area: ['520px', '550px'],
+		    				cancel :function(){
+			                  	tableIns.reload({})
+			                },
+		    				success : function(layero, index){
+		    					setTimeout(function(){
+		    						layui.layer.tips('点击此处返回基础设置', '.layui-layer-setwin .layui-layer-close', {
+		    							tips: 3
+		    						});
+		    					},500)
+		    				}
+		    			})			
+		    			//layui.layer.full(index);
+
+		    		}).resize();           
+	  			
+		    }else if(obj.event === 'delete'){
+		    	layer.confirm('确认要删除吗？', {
+		            btn : [ '确定', '取消' ]
+		        }, function(index) {
+		        	$.ajax({
+		        		 type:'get',	
+		        		 url:'#(BASE_PATH)/security/notesetting/msgApiMoreDelete/'+id,       		  		       		  		       		 
+			       		 success:function(msg){
+			       			obj.del();			       		
+			       			layer.msg("删除成功", {time: 1000});
+			       			tableIns.reload();
+			       		}
+		       	  }) 
+		        }); 
+		    }
+		 })
+		 
+	})
+	function tableReload(){
+			tableIns.reload({});	
+		}
+</script>
+
+</body>
+</html>

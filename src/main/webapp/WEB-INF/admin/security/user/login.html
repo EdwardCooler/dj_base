@@ -1,0 +1,142 @@
+#include("/WEB-INF/admin/common/headerLogin.html")
+
+<body>
+<!--[if lte IE 7]>
+<style type="text/css">
+#errorie {position: fixed; top: 0; z-index: 100000; height: 30px; background: #FCF8E3;}
+#errorie div {width: 900px; margin: 0 auto; line-height: 30px; color: orange; font-size: 14px; text-align: center;}
+#errorie div a {color: #459f79;font-size: 14px;}
+#errorie div a:hover {text-decoration: underline;}
+</style>
+<div id="errorie"><div>您还在使用老掉牙的IE，请升级您的浏览器到 IE8以上版本 <a target="_blank" href="http://windows.microsoft.com/zh-cn/internet-explorer/ie-8-worldwide-languages">点击升级</a>&nbsp;&nbsp;强烈建议您更改换浏览器：<a href="http://down.tech.sina.com.cn/content/40975.html" target="_blank">谷歌 Chrome</a></div></div>
+<![endif]-->
+<style type="text/css">
+body {background: url(#(BASE_PATH)/#(gSettingGet('loginBg'))) no-repeat center center fixed;
+    -webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;}
+</style>
+<div class="main_box">
+	
+	<h4 class="titleLogin">#(gSettingGet('loginTitle'))</h4>  
+	<form class="layui-form">
+	  <div class="layui-form-item">  
+	    <div class="layui-input-block">
+	      <input type="text" name="username"  autocomplete="off" placeholder="用户名" class="layui-input borderNone" lay-verify="required" id="j_username">
+	    </div>	    
+	  </div>
+	  
+	   <div class="layui-form-item">  
+	    <div class="layui-input-block">
+	      <input type="password" name="password"  autocomplete="off" placeholder="密码" class="layui-input borderNone" lay-verify="required"  id="j_password">
+	    </div>
+	    <div>
+	    <a class="forgetPsw" href="#(BASE_PATH)/security/user/forgetPsw">忘记密码？</a>	    	
+	    </div>
+	  </div>
+	  #if(gSettingGetBoolean('isvalidate'))
+	  <div class="layui-form-item layui-form-item-checked">  
+	    <div class="layui-input-block">
+	      <input type="text" name="captcha"  autocomplete="off" placeholder="验证码" class="layui-input borderNone" lay-verify="required">
+	      <img id="captcha_img" alt="点击更换" title="点击更换" src="captcha" class="m">
+	    </div>	    
+	  </div>
+	  #end
+	  <div class="layui-form-item layui-form-item-rember">  
+	    <div class="layui-input-block">
+	     <input type="checkbox"  lay-skin="primary" title="记住我，以后自动登陆" lay-filter="checked" >
+	    </div>	   
+	  </div>
+	  
+	  <div class="layui-form-item layui-form-item-submit">
+	    <div class="layui-input-block">
+	      <button class="layui-btn" lay-submit="" lay-filter="loginBtn">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+	    </div>
+	  </div>
+  </form>
+
+</div>
+
+
+<script src="#(BASE_PATH)/static/layuiadmin/layui/layui.js"></script>
+<script src="#(BASE_PATH)/static/js/jquery.cookie.js"></script>
+<script>
+
+layui.config({
+	  dir: '#(BASE_PATH)/static/layuiadmin/layui/' //layui.js 所在路径（注意，如果是script单独引入layui.js，无需设定该参数。），一般情况下可以无视
+	  ,version: 1.0 //一般用于更新模块缓存，默认不开启。设为true即让浏览器不缓存。也可以设为一个固定的值，如：201610
+	  ,debug: true //用于开启调试模式，默认false，如果设为true，则JS模块的节点会保留在页面
+	});
+	
+var $ ;
+layui.use(['form','layer','jquery'], function(){
+	$ = layui.jquery,
+	form = layui.form,
+	layer=layui.layer;
+		
+	changeCode();
+		
+	$("#captcha_img").click(function(){
+		changeCode();
+		$("#j_username").focus();
+	});
+	
+	//监听提交
+	  form.on('submit(loginBtn)', function(data){
+		  $.post("#(BASE_PATH)/security/user/dologin",data.field,
+    		function(data,status){
+    			 if(status!="success"){
+    				changeCode();
+    				layer.msg("登录提交失败！");
+    			}else{
+    				if(data.code!="0"){
+    					changeCode();
+    					layer.msg(data.msg);
+    				}else{
+    					layer.msg('登录成功',{icon: 1,time: 1000},function(){
+    						console.log(document.referrer)
+    						//window.location.href=document.referrer;
+    						window.location.href='#(BASE_PATH)/admin'
+    					});   					   					
+    				}
+    			} 
+    			
+    			});
+	    return false;
+	  });
+	
+	  //记住密码
+	  var COOKIE_NAME = 'username';  
+	  var COOKIE_PASSWORD = 'password';  
+	  if( $.cookie(COOKIE_NAME) ){  
+	      $("#j_username").val(  $.cookie(COOKIE_NAME) );  
+	  }
+	  if( $.cookie(COOKIE_PASSWORD) ){  
+	      $("#j_password").val(  $.cookie(COOKIE_PASSWORD) );  
+	  }  
+	  
+	  form.on('checkbox(checked)', function(data){		  
+		  if(data.elem.checked==true){
+			  var date = new Date();  
+	          date.setTime(date.getTime() + (3 * 24 * 60 * 60 * 1000)); //三天后的这个时候过期  
+	          $.cookie(COOKIE_NAME, $("#j_username").val(), { path: '/', expires: date }); 
+	          $.cookie(COOKIE_PASSWORD, $("#j_password").val(), { path: '/', expires: date }); 
+		  }else{
+			  $.cookie(COOKIE_NAME, null, { path: '/' });  //删除cookie  
+	          $.cookie(COOKIE_PASSWORD, null, { path: '/' });  //删除cookie   
+		  }
+		  
+		});  
+	  
+});
+
+function genTimestamp(){
+	var time = new Date();
+	return time.getTime();
+};
+function changeCode(){
+	var j_randomKey = genTimestamp();
+	$("#j_randomKey").val(j_randomKey);
+	$("#captcha_img").attr("src", "#(BASE_PATH)/security/user/getReadomCode?t="+j_randomKey);
+}
+</script>
+</body>
+</html>

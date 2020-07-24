@@ -1,0 +1,166 @@
+#include("/WEB-INF/admin/common/header.html")
+
+<body class="childrenBody">
+	<form class="layui-form layui-form-search">
+		<div class="layui-inline">
+		    <div class="layui-input-inline">
+            <label>菜单名称：</label>
+           
+		    </div>
+		    <div class="layui-input-inline">
+		     <input type="text"  class="layui-input " name="username">
+		    </div>
+		    <button class="layui-btn layui-search" lay-submit lay-filter="usersearch"><i class="layui-icon">&#xe615;</i>查询</button>		   
+		     <a  #shiroHasPermission('security:user:add') class="layui-btn layui-add" ><i class="layui-icon"></i>添加</a>	
+		</div>
+	</form>	
+	<div class="layui-form  data-table-Wrapper">
+		<a  onclick="tableReload()"></a>
+		<table  id="user" lay-filter="user"></table>
+		<script type="text/html" id="enabled">
+			{{#("#")  if(d.enabled == true){ }}
+   				<span style="color:#46D069" >正常</span>
+  			
+            {{#("#")  } else if(d.enabled == false){ }}
+   				<span style="color:#F96965 ">已禁止</span>
+   			{{#("#")  } }}
+                
+			</div>
+		</script>		
+		<script type="text/html" id="operation">
+			<div class="operation">
+				<a #shiroHasPermission('security:user:edit') class="view" href="javascript:;"  lay-event="edit"> 编辑</a>
+	            {{#("#")  if(d.enabled == true){ }}
+   				<a #shiroHasPermission('security:user:edit') class="view" href="javascript:;"  lay-event="disable"> 禁止</a>
+                {{#("#")  } else if(d.enabled == false){ }}
+   				<a #shiroHasPermission('security:user:edit') class="view" href="javascript:;"  lay-event="enable"> 开启</a>
+   			    {{#("#")  } }}				
+                
+			</div>
+		</script>
+	</div>
+	
+	<script type="text/javascript" src="#(BASE_PATH)/static/layuiadmin/layui/layui.js"></script>
+	<script>
+	 var tableIns;
+	 layui.use(['table','laydate','form','jquery'], function() {
+		 var table = layui.table,
+		 	form = layui.form,
+		 	$ = layui.jquery;
+		 
+		   tableIns = table.render({
+		        elem: '#user',
+		        height: 'full-80', //容器高度
+		        url: '#(BASE_PATH)/security/user/pageJson',
+		        page: true,
+		        limit:20,
+		        cellMinWidth: 80,
+		        id: 'user',
+		        cols: [[
+		                {type: 'numbers', title: '序号',unresize:true},
+		                {field: 'username', title: '登陆名',unresize:true},
+		                {field: 'id', title: 'UID',unresize:true},
+		                {field: 'realname', title: '真实姓名',unresize:true},
+		                {field: 'regtime', title: '注册时间',unresize:true},
+		                {toolbar: '#enabled', title: '禁止',unresize:true},
+		                {title: '操作', toolbar: '#operation',width:162,unresize:true},
+		                ]],  
+		               done: function(res, curr, count) {
+		                                   
+		               },
+		        loading: true,
+		    });
+		 
+		  //查询
+		  form.on('submit(usersearch)', function(data) {
+			  console.log(data)
+		        tableIns.reload({
+		            where: data.field
+		        });		       
+		        return false; 
+		    });
+	
+		  
+		   //添加
+		  $(".layui-add").click(function(){
+             $(window).one("resize",function(){					
+	    			var index = layui.layer.open({
+	    				title : "添加用户",
+	    				type : 2,
+	    				content : '#(BASE_PATH)/security/user/add',
+	    				success : function(layero, index){
+	    					setTimeout(function(){
+	    						layui.layer.tips('点击此处返回用户管理', '.layui-layer-setwin .layui-layer-close', {
+	    							tips: 3
+	    						});
+	    					},500)
+	    				}
+	    			})			
+	    			layui.layer.full(index);
+
+	    		}).resize(); 
+			 })  
+			 
+	 //监听工具条
+		  table.on('tool(user)', function(obj){
+		    var data = obj.data;
+		    var id=data.id;
+		    if(obj.event === 'edit'){  
+		    	$(window).one("resize",function(){					
+	    			var index = layui.layer.open({
+	    				title : "编辑用户",
+	    				type : 2,
+	    				content : '#(BASE_PATH)/security/user/edit/'+id,
+	    				success : function(layero, index){
+	    					setTimeout(function(){
+	    						layui.layer.tips('点击此处返回用户管理', '.layui-layer-setwin .layui-layer-close', {
+	    							tips: 3
+	    						});
+	    					},500)
+	    				}
+	    			})			
+	    			layui.layer.full(index);
+
+	    		}).resize(); 
+	  			
+		    }else if(obj.event === 'enable'){
+		    	layer.confirm('确认要开启该用户吗？', {
+		            btn : [ '确定', '取消' ]
+		        }, function(index) {
+		        	$.ajax({
+		        		 type:'get',	
+		        		 url:'#(BASE_PATH)/security/user/enable/'+id,       		  		       		  		       		 
+			       		 success:function(msg){
+			       			obj.del();			       		
+			       			layer.msg("开启成功", {time: 1000});
+			       			tableIns.reload();
+			       		 }
+		       	  }) 
+		        }); 
+		    }else if(obj.event === 'disable'){
+		    	layer.confirm('确认要禁止该用户吗？', {
+		            btn : [ '确定', '取消' ]
+		        }, function(index) {
+		        	$.ajax({
+		        		 type:'get',	
+		        		 url:'#(BASE_PATH)/security/user/disable/'+id,       		  		       		  		       		 
+			       		 success:function(msg){
+			       			obj.del();			       		
+			       			layer.msg("禁止成功", {time: 1000});
+			       			tableIns.reload();
+			       		 }
+		       	  }) 
+		        }); 
+		    }
+		 })
+         
+     });
+	
+	function tableReload(){
+			tableIns.reload({});	
+		}
+	</script>
+</body>
+</html>
+
+

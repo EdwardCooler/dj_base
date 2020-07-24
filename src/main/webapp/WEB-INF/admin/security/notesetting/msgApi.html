@@ -1,0 +1,140 @@
+#include("/WEB-INF/admin/common/header.html")
+<body class="childrenBody">
+
+<form class="layui-form setting"> 
+
+			<fieldset class="layui-elem-field ">
+			  <legend>短信模板</legend>
+			  <div class="layui-field-box">
+			  	 <div class="layui-form-item">
+				    <label class="layui-form-label">注册验证短信模板：</label>
+				    <div class="layui-input-block">
+				      	<input type="text" name="asNotesModel.content0" value="#(asNotesModel0.content)" placeholder="验证码${code}，您正在注册成为${product}用户，感谢您的支持！" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">短信接口类型：</label>
+				    <div class="layui-input-block">
+						<select name="asNotesModel.type0" lay-filter="regist">
+							#for(notesType1 : notesType)
+					        <option value="0" #if(asNotesModel0.type==notesType1.value) selected #end>#(notesType1.name)</option>
+					        #end
+					    </select>				    
+					</div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">短信签名：</label>
+				    <div class="layui-input-block">
+						<input type="text" name="asNotesModel.signature0" value="#(asNotesModel0.signature)" placeholder="西创信息" autocomplete="off" class="layui-input">
+					</div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">模板ID：</label>
+				    <div class="layui-input-block">
+						<input type="text" name="asNotesModel.modelid0" value="#(asNotesModel0.modelid)" placeholder="SMS_62345332" autocomplete="off" class="layui-input">
+					</div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">示例：验证码{code}，您正在注册成为{product}用户，感谢您的支持！
+						标签说明：{code}自动生成的验证码，{product}插件设置的短信模板{product}值</label>
+				  </div>
+				  
+				  <hr class="layui-bg-green">
+				  
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">绑定手机短信模板：</label>
+				    <div class="layui-input-block">
+				      	<input type="text" name="asNotesModel.content1" value="#(asNotesModel1.content)" placeholder="验证码${code}，您正在注册成为${product}用户，感谢您的支持！" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">短信接口类型：</label>
+				    <div class="layui-input-block">
+						<select name="asNotesModel.type1" lay-filter="regist">
+					        <option value="0" #if(asNotesModel1.type==0) selected #end>阿里云</option>
+					    </select>				    
+					</div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">短信签名：</label>
+				    <div class="layui-input-block">
+						<input type="text" name="asNotesModel.signature1" value="#(asNotesModel1.signature)" placeholder="西创信息" autocomplete="off" class="layui-input">
+					</div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">模板ID：</label>
+				    <div class="layui-input-block">
+						<input type="text" name="asNotesModel.modelid1" value="#(asNotesModel1.modelid)" placeholder="SMS_62345332" autocomplete="off" class="layui-input">
+					</div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">示例：验证码{code}，您正在注册成为{product}用户，感谢您的支持！
+						标签说明：{code}自动生成的验证码，{product}插件设置的短信模板{product}值</label>
+				  </div>
+				  
+				  <hr class="layui-bg-green">
+				  
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">找回密码短信模板：</label>
+				    <div class="layui-input-block">
+				      	<input type="text" name="asNotesModel.content2" value="#(asNotesModel2.content)" placeholder="验证码${code}，您正在注册成为${product}用户，感谢您的支持！" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">短信接口类型：</label>
+				    <div class="layui-input-block">
+						<select name="asNotesModel.type2" lay-filter="regist">
+					        <option value="0" #if(asNotesModel2.type==0) selected #end>阿里云</option>
+					    </select>				    
+					</div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">短信签名：</label>
+				    <div class="layui-input-block">
+						<input type="text" name="asNotesModel.signature2" value="#(asNotesModel2.signature)" placeholder="西创信息" autocomplete="off" class="layui-input">
+					</div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">模板ID：</label>
+				    <div class="layui-input-block">
+						<input type="text" name="asNotesModel.modelid2" value="#(asNotesModel2.modelid)"  placeholder="SMS_62345332" autocomplete="off" class="layui-input">
+					</div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">示例：验证码${code}，您正在尝试修改${product}登录密码，请妥善保管账户信息。
+						标签说明：{code}自动生成的验证码，{product}插件设置的短信模板{product}值</label>
+				  </div>
+				  
+			  </div>
+			</fieldset>
+			<div class="layui-form-item">
+			    <div class="layui-input-block">
+			      <button class="layui-btn" lay-submit lay-filter="msgAPIBtn">更新</button>
+			    </div>
+			</div>
+			</form>
+			
+<script type="text/javascript" src="#(BASE_PATH)/static/layuiadmin/layui/layui.js"></script>
+<script>
+	layui.use(['table','laydate','form','jquery','element'],function(){
+		var table = layui.table,
+		 	form = layui.form,
+		 	$ = layui.jquery,
+		 	element = layui.element;	
+		
+	    //短信接口设置页面
+		form.on('submit(msgAPIBtn)', function(data){
+		     $.post("#(BASE_PATH)/security/notesetting/msgApiSave",data.field,
+				function(data){
+		    	 layer.msg('更新成功',{icon: 1,time: 2000},function(){
+					 
+					}); 
+		    	 
+		     })
+		    return false;
+		  });
+		  
+	})
+</script>
+</body>
+</html>

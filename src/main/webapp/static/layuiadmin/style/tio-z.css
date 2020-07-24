@@ -1,0 +1,22 @@
+
+/* 首页 */
+	.tio-home-page .bc-ccc{
+		background: #f2f2f2;
+		text-align: center;
+		width: 22%;
+		margin: 10px;
+		padding-top:8px;
+		min-height:140px;
+	}
+	.tio-home-page .layui-text-top{
+		font-size: 56px;
+		font-weight:bold;
+		color:red;
+		min-height:70px;
+		margin-top:16px;
+	}
+	.tio-home-page .layui-text-center{
+		font-size:32px;
+		font-weight:bold;
+		line-height:1!important;
+	}

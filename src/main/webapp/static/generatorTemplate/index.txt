@@ -1,0 +1,133 @@
+﻿#[[ #include("/WEB-INF/admin/common/header.html") ]]#
+
+ 
+<body class="childrenBody">
+	<form class="layui-form layui-form-search">
+		<div class="layui-inline">
+		    <div class="layui-input-inline">
+            <label>名称：</label>
+           
+		    </div>
+		    <div class="layui-input-inline">
+		     <input type="text"  class="layui-input " name="menuname">
+		    </div>
+		    <button class="layui-btn layui-search" lay-submit lay-filter="menusearch"><i class="layui-icon">&#xe615;</i>查询</button>		   
+		     <a #(shiroAdd) class="layui-btn layui-add" ><i class="layui-icon"></i>添加</a>	
+		</div>
+	</form>	
+	<div class="layui-form  data-table-Wrapper">
+		<a  onclick="tableReload()"></a>
+		<table  id="#(modelClassName)" lay-filter="menu"></table>		
+		<script type="text/html" id="operation">
+			<div class="operation">
+				<a #(shiroEdit) class="view" href="javascript:;"  lay-event="edit"> 编辑</a>
+				<a #(shiroDelete) class="view" href="javascript:;"  lay-event="delete"> 删除</a>
+                
+			</div>
+		</script>
+	</div>
+	
+
+<script type="text/javascript">
+	var tableIns;
+	layui.use(['table','laydate','form','jquery'],function(){
+		var table = layui.table,
+		 	form = layui.form,
+		 	$ = layui.jquery;
+		
+		
+		  tableIns = table.render({
+		        elem: '##(modelClassName)',
+		        height: 'full-90', //容器高度
+		        url: '#[[#(currentURL)]]#/pageJson',
+		        page: false,
+		        limit:19,
+		        cellMinWidth: 80,
+		        id: 'menu',
+		        cols: [[
+		                #for (tableinfo:tableinfos)
+						{field: '#(tableinfo.columnName)', title: '#(tableinfo.columnName)',unresize:true},
+						#end
+		                {title: '操作', toolbar: '#operation',unresize:true},
+		                ]],  
+		               done: function(res, curr, count) {
+		               },
+		        loading: true
+		    });
+		 
+		  //查询
+		  form.on('submit(menusearch)', function(data) {
+			  console.log(data)
+		        tableIns.reload({
+		            where: data.field
+		        });		       
+		        return false; 
+		    });
+	
+		  
+		   //添加
+		  $(".layui-add").click(function(){
+			  layer.load();
+              layer.open({
+                  title: "添加",
+                  type: 2,
+                  shade: 0.4,
+                  content: '#[[#(currentURL)]]#/add',
+                  area: ['520px', '550px'],
+                  shadeClose: true,   
+                  cancel :function(){
+                  	tableIns.reload({})
+                  },
+                  success: function(layero, index){
+                	  layer.closeAll('loading');
+                  }
+              	});
+             layui.layer.full(add); 	             				
+			 })  
+			 
+	 //监听工具条
+		  table.on('tool(menu)', function(obj){
+		    var data = obj.data;
+		    var id=data.id;
+		    if(obj.event === 'edit'){ 
+		    	layer.load();
+	              layer.open({
+	                  title: "修改菜单",
+	                  type: 2,
+	                  shade: 0.4,
+	                  content: '#[[#(currentURL)]]#/edit/'+id,
+	                  area: ['520px', '550px'],
+	                  shadeClose: true,   
+	                  cancel :function(){
+	                  	tableIns.reload({})
+	                  },
+	                  success: function(layero, index){
+	                	  layer.closeAll('loading');
+	                  }
+	              });           
+	  			layui.layer.full(index);
+	  			
+		    }else if(obj.event === 'delete'){
+		    	layer.confirm('确认要删除吗？', {
+		            btn : [ '确定', '取消' ]
+		        }, function(index) {
+		        	$.ajax({
+		        		 type:'get',	
+		        		 url:'#[[#(currentURL)]]#/delete/'+id,       		  		       		  		       		 
+			       		 success:function(msg){
+			       			obj.del();			       		
+			       			layer.msg("删除成功", {time: 1000});
+			       			tableIns.reload();
+			       		 }
+		       	  }) 
+		        }); 
+		    }
+		 })
+		 
+	})
+	function tableReload(){
+			tableIns.reload({});	
+		}
+	</script>
+</body>
+</html>

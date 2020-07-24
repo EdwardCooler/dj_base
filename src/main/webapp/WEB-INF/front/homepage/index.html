@@ -1,0 +1,123 @@
+#include("/WEB-INF/admin/common/headerNews.html")
+<body class="backF">
+<header>
+    <div class="header-div">
+    <div class="divTop">
+		<div class="divBanner">
+			<div class="divLogo">
+			<img alt="" src="#(BASE_PATH)/#(homepageImage)">
+			</div>
+			<div class="divSearch">
+				<input type="text" id="searchText" placeholder="输入关键词" /> 
+				<span id="btnSearch"></span>
+			</div>
+			<script type="text/javascript">
+				$(document).ready(function(){
+					$("#btnSearch").click(function(){
+						window.location.href="../search/?key="+$("#searchText").val();
+					});
+				});
+			</script>
+		</div>
+	
+	</div> 
+    <!-- <img alt="" src="#(BASE_PATH)/#(homepageImage)"> -->
+    </div>
+    <nav style="background:#(homepageNavcolor??'#393D49');">
+        <ul class="layui-nav navUrlHeader" style="background:none;">
+        	
+            <li class="layui-nav-item layui-this"><a href="javascript:;" data-url="#(BASE_PATH)/index/homePage">首页</a></li>
+            #for(navFrist:navsFrist)
+            	#if(navFrist.navsSecond.size()>0)
+        		<li class="layui-nav-item" id="nav_#(navFrist.id)">
+        		<a  href="javascript:;" data-url="#(BASE_PATH)/index/newsList?navid=#(navFrist.id)" style='color:#(navFrist.color)'>#(navFrist.name)</a>
+        		#if(navFrist.navsSecond.size()>0)
+        		 	<dl class="layui-nav-child">
+		        		#for(navSecond:navFrist.navsSecond)
+		        			 <dd><a class="childColor" #if(!navSecond.blank) href="javascript:;" data-url="#(navSecond.url)" #else href="#(navSecond.url)" target="_Blank" #end style="color:#(navSecond.color)">#(navSecond.name)</a></dd>
+		        		#end
+	        		</dl>
+	        	#end
+	        	</li>
+	        	#end
+        	#end
+            
+        </ul>
+    </nav>
+</header>
+<div class="navListIfrom ">
+    <iframe src="#(BASE_PATH)/index/homePage"  id="mainFrame" name="mainFrame" scrolling="no"  frameborder="0" style="padding: 0px; width: 100%;height: 100%;"></iframe>
+</div>
+<script>
+    var browserVersion = window.navigator.userAgent.toUpperCase();
+    var isOpera = browserVersion.indexOf("OPERA") > -1 ? true : false;
+    var isFireFox = browserVersion.indexOf("FIREFOX") > -1 ? true : false;
+    var isChrome = browserVersion.indexOf("CHROME") > -1 ? true : false;
+    var isSafari = browserVersion.indexOf("SAFARI") > -1 ? true : false;
+    var isIE = (!!window.ActiveXObject || "ActiveXObject" in window);
+    var isIE9More = (! -[1,] == false);
+    function reinitIframe(iframeId, minHeight) {
+        try {
+            var iframe = document.getElementById(iframeId);
+            var bHeight = 0;
+            if (isChrome == false && isSafari == false) {
+                try {
+                    bHeight = iframe.contentWindow.document.body.scrollHeight;
+                } catch (ex) {
+                }
+            }
+            var dHeight = 0;
+            if (isFireFox == true)
+                dHeight = iframe.contentWindow.document.documentElement.offsetHeight + 2;//如果火狐浏览器高度不断增加删除+2
+            else if (isIE == false && isOpera == false && iframe.contentWindow) {
+                try {
+                    dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+                } catch (ex) {
+                }
+            }
+            else if (isIE == true && isIE9More) {//ie9+
+                var heightDeviation = bHeight - eval("window.IE9MoreRealHeight" + iframeId);
+                if (heightDeviation == 0) {
+                    bHeight += 3;
+                } else if (heightDeviation != 3) {
+                    eval("window.IE9MoreRealHeight" + iframeId + "=" + bHeight);
+                    bHeight += 3;
+                }
+            }
+            else//ie[6-8]、OPERA
+                bHeight += 3;
+
+            var height = Math.max(bHeight, dHeight);
+            if (height < minHeight) height = minHeight;
+            //alert(iframe.contentWindow.document.body.scrollHeight + "~" + iframe.contentWindow.document.documentElement.scrollHeight);
+            iframe.style.height = height + "px";
+        } catch (ex) { }
+    }
+    function startInit(iframeId, minHeight) {
+        eval("window.IE9MoreRealHeight" + iframeId + "=0");
+        window.setInterval("reinitIframe('" + iframeId + "'," + minHeight + ")", 100);
+    }
+    
+</script>
+<script>
+    layui.use(['element','jquery'], function(){
+        var element = layui.element,
+            $=layui.jquery; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        $(window).on('resize', function () {
+            startInit('mainFrame', 560);
+        }).resize();
+
+        $('.navUrlHeader  li a').off('click').on('click', function() {
+            document.getElementById("mainFrame").style.minHeight = "0px";
+            startInit('mainFrame', 560);
+            var url =$(this).attr('data-url');
+            $(".navListIfrom iframe").attr('src',url);
+        });
+        $('.navUrlHeader  li').off('click').on('click', function() {
+            $(this).addClass("layui-this").siblings().removeClass("layui-this");
+        });
+    });
+</script>
+#include("/WEB-INF/admin/common/footer.html")
+</body>
+</html>

@@ -1,0 +1,125 @@
+
+	#include("/WEB-INF/admin/common/header.html")
+<body class="childrenBody" id="orgAdd">
+	<form class="layui-form">
+		<div class="layui-form-item">
+		    <label class="layui-form-label">菜单名称：</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="menu.name" lay-verify="required" placeholder="请输入内容" class="layui-input" value="#(menu.name)">
+		    </div>
+		 </div>
+		  <div class="layui-form-item">
+		      <label class="layui-form-label">上级菜单：</label>
+		      <div class="layui-input-block">
+		        <select name="menu.parent_menu" lay-verify="" lay-search="">
+		          <option value="">直接选择或搜索选择</option>
+		          #for(list:list)
+		          <option value="#(list.id)" #if(list.LAY_CHECKED==1) selected #end>#(list.name)</option>
+		         #end
+		        </select>
+		      </div>
+		  </div>
+		  
+		  	<div class="layui-form-item">
+		      <label class="layui-form-label">菜单类型：</label>
+		      <div class="layui-input-block">
+		        <select name="menu.type" lay-verify="" lay-search="">
+		          <option value="0" #if(menu.type==0) selected #end>目录</option>
+		          <option value="1" #if(menu.type==1) selected #end>菜单</option>
+		          <option value="2" #if(menu.type==2) selected #end>按钮</option>
+		        </select>
+		      </div>
+		  </div>
+		  
+		 <div class="layui-form-item">
+		    <label class="layui-form-label">url地址：</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="menu.url"  placeholder="请输入内容" class="layui-input" value="#(menu.url)">
+		    </div>
+		  </div>
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">排序：</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="menu.orderby" lay-verify="required" placeholder="请输入部门名称" class="layui-input" value="#(menu.orderby)">
+		    </div>
+		  </div>
+		   <div class="layui-form-item">
+		    <label class="layui-form-label">权限标识：</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="menu.prems" lay-verify="required" placeholder="请输入部门名称" class="layui-input" value="#(menu.prems)">
+		    </div>
+		  </div>
+		   <div class="layui-form-item layui-form-text">
+		    <label class="layui-form-label">菜单描述：</label>
+		    <div class="layui-input-block">
+		      <textarea placeholder="请输入内容" class="layui-textarea" name="menu.description">#(menu.description)</textarea>
+		    </div>
+		  </div>
+		  #if(menu.type!=2)
+		  <div class="layui-form-item layui-form-text">
+		    <label class="layui-form-label">图标选择：</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="menu.iconcss" lay-verify="required" placeholder="请输入图标码" class="layui-input" value="#(menu.iconcss)">
+		      <a class="layui-btn layui-btn-warm layui-btn-xs" style="margin-top:5px;" href="#(BASE_PATH)/static/layuiadmin/layui/icon/icon.html" target="_blank" >查看图标详情</a>
+		    </div>
+		  </div>
+		  #end
+		  <input value="#(menu.id)" name="menu.id" type="hidden" />
+		  <hr class="rollHr">
+		<div class="layui-form-item layui-affirm bouncedFooter">
+			<a class="layui-btn bFffButton" id="peoEditcancelButton">取消</a> 
+			<a class="layui-btn bFaaButton" lay-submit=""  lay-filter="menuEdit">确定</a>    	
+		</div>
+	</form>
+
+<script type="text/javascript" src="#(BASE_PATH)/static/layuiadmin/layui/layui.js"></script>
+<script >
+layui.use(['laydate','form','jquery','table', 'layedit'],function(){
+    	 var form = layui.form,
+		 	$ = layui.jquery,
+		 	table = layui.table,
+		 	laydate=layui.laydate
+		 	,layedit = layui.layedit;
+    	 
+    	
+    	 $("#peoEditcancelButton").click(function(){
+ 			var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+ 			console.log(index);
+ 			parent.layer.close(index); //再执行关闭   
+ 		})
+    	 //提交
+    	 form.on('submit(menuEdit)', function(data){
+ 		  	$.post('/security/menu/update',data.field,function(msg){
+ 				 if(msg.code=="0"){
+ 					 layer.msg(msg.msg, {time: 1000},function(){
+ 						//parent.location.reload()
+			  			var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+						parent.layer.close(index); //再执行关闭   
+						parent.tableReload();
+ 					 });  			
+ 				 }else{
+ 					
+ 					 layer.open({
+ 					        type: 1,				       
+ 					        id: 'message',
+ 					        content: '<div style="padding: 20px 100px;">'+ msg.msg +'</div>',
+ 					        btn: '确定',
+ 					        btnAlign: 'c',
+ 					        shade: 0.4 ,
+ 					        yes: function(){
+ 					         layer.closeAll();
+ 					        }
+ 					    });
+ 				 }		 
+ 			  });
+ 		    return false;
+ 		  });
+ 		  
+ 		 form.render();
+})
+
+</script>
+</body>
+</html>
+
+	

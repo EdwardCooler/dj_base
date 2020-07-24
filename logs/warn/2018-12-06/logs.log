@@ -1,0 +1,5 @@
+2018-12-06 18:38:32.296 [WARN ] com.jfinal.core.ActionHandler - 404 Action Not Found: /swust/lab
+2018-12-06 18:38:34.237 [WARN ] com.jfinal.core.ActionHandler - 404 Action Not Found: /swust/lab
+2018-12-06 21:27:19.824 [WARN ] com.jfinal.core.ActionHandler - 404 Action Not Found: /security/systemsetting
+2018-12-06 21:27:30.817 [WARN ] com.jfinal.core.ActionHandler - 404 Action Not Found: /security/systemsetting
+2018-12-06 21:28:12.110 [WARN ] com.jfinal.core.ActionHandler - 404 Action Not Found: /security/systemsetting

@@ -1,0 +1,54 @@
+#include("/WEB-INF/admin/common/header.html")
+<body>
+<ul id='treeDemo' class="ztree"></ul>
+<script type="text/javascript">
+var layer;
+var index;
+layui.config({
+	  base: '#(BASE_PATH)/static/layuiadmin/' //静态资源所在路径
+	}).extend({
+	  index: 'lib/index' //主入口模块
+	}).use(['index','table','form'],function(){
+		  var $ = layui.$
+		    ,admin = layui.admin
+		    ,table=layui.table
+		    ,form=layui.form;
+		    index = parent.layer.getFrameIndex(window.name);
+		  layer=layui.layer;
+		  
+		  
+	})
+</script>
+<script type="text/javascript">
+var setting = {
+        data: {
+            simpleData: {
+                enable: true
+            }
+        },
+        callback: {
+            onClick: zTreeOnClick
+        }
+    };
+
+	function zTreeOnClick(event, treeId, treeNode) {
+		if (!treeNode.click) {
+			return;
+		}
+	    //点击事件
+	    console.log(treeNode.id)
+	    ztreeId=treeNode.id;
+	    layui.layer.confirm('您确定要下载该日志吗？', function(index){
+	    	layui.layer.close(index);
+	    	window.location.href ="#(BASE_PATH)/security/log/downloadSystemLogs?ztreeId=" +treeNode.id;
+	    	
+	    	});
+	}
+
+	$(document).ready(function(){
+		$.fn.zTree.init($("#treeDemo"), setting, #(zNodes??"[]"));
+	});
+</script>
+
+</body>
+</html>

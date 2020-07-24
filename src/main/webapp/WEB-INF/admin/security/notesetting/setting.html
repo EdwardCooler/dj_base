@@ -1,0 +1,143 @@
+#include("/WEB-INF/admin/common/header.html")
+<body class="childrenBody">
+<form class="layui-form setting"> 
+			<fieldset class="layui-elem-field ">
+				  <legend>阿里云短信接口设置 </legend>
+				  <div class="layui-field-box">
+				  	  <label class="layui-form-label">第三方短信接口，按短信条数收费。直接登录阿里云账号购买服务！</label>
+				  
+					  <div class="layui-form-item">
+					    <label class="layui-form-label">App Key：</label>
+					    <div class="layui-input-block">
+					      	<input type="text" name="appKey" value="#(appKey??'')" placeholder="123456" autocomplete="off" class="layui-input" lay-verify="required">
+					    </div>
+					  </div>
+					  <div class="layui-form-item">
+					    <label class="layui-form-label">App Secret：</label>
+					    <div class="layui-input-block">
+					      	<input type="text" name="appSecret" value="#(appSecret??'')" placeholder="fc854711d07b1b0989411c5b883962c9" autocomplete="off" class="layui-input" lay-verify="required">
+					    </div>
+					  </div>
+					<label class="layui-form-label">短信模板需要在阿里云上申请并通过！</label>
+			 	  </div>
+			  </fieldset>
+			  <fieldset class="layui-elem-field ">
+				  <legend>腾讯短信接口设置 </legend>
+				  <div class="layui-field-box">
+				  	  <label class="layui-form-label">第三方短信接口，按短信条数收费。直接登录腾讯云账号购买服务！</label>
+				  
+					  <div class="layui-form-item">
+					    <label class="layui-form-label">App Key：</label>
+					    <div class="layui-input-block">
+					      	<input type="text" name="appKeyTxun" value="#(appKeyTxun??'')" placeholder="123456" autocomplete="off" class="layui-input" lay-verify="required">
+					    </div>
+					  </div>
+					  <div class="layui-form-item">
+					    <label class="layui-form-label">App Secret：</label>
+					    <div class="layui-input-block">
+					      	<input type="text" name="appSecretTxun" value="#(appSecretTxun??'')" placeholder="fc854711d07b1b0989411c5b883962c9" autocomplete="off" class="layui-input" lay-verify="required">
+					    </div>
+					  </div>
+					<label class="layui-form-label">短信模板需要在腾讯云上申请并通过！</label>
+			 	  </div>
+			  </fieldset>
+			  <fieldset class="layui-elem-field ">
+				  <legend>短信基础设置 </legend>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">短信模板{product}值：</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="product" value="#(product??'')" placeholder="请输入短信模板值" autocomplete="off" class="layui-input" lay-verify="required">
+				    </div>
+				    <div class="layui-form-mid layui-word-aux">可以是网站名称，比如：西创信息</div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">短信验证码长度：</label>
+				    <div class="layui-input-block">
+				      	<input type="text" name="length" value="#(length??'')" placeholder="请输入值" autocomplete="off" class="layui-input" lay-verify="required">
+				    </div>
+				    <div class="layui-form-mid layui-word-aux">验证码长度不能小于4，如果你的网站注册人多，验证码有效时间设置的长，那么验证码长度一定要设置大点</div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">验证码有效时间：</label>
+				    <div class="layui-input-block">
+				      	<input type="text" name="timeLimit" value="#(timeLimit??'')" placeholder="请输入值" autocomplete="off" class="layui-input" lay-verify="required">
+				    </div>
+				    <div class="layui-form-mid layui-word-aux">会保存一个手机号最新的验证码，超过设置的时间，就自动删除，单位：分钟</div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">注册手机号码框下面提示：</label>
+				    <div class="layui-input-block">
+				      <textarea name="prompt" placeholder="收到短信后，请在10分钟内完成注册!" class="layui-textarea" lay-verify="required">#(prompt??'')</textarea>
+				    </div>
+				    <div class="layui-form-mid layui-word-aux">支持HTML代码，方便让别人知道一些情况双击输入框可扩大/缩小</div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">注册时短信发送验证模式：</label>
+				    <div class="layui-input-block">
+				      <input type="radio" name="validation" value="0" title="无验证" #if(validation=="0") checked #end>
+				      <input type="radio" name="validation" value="1" title="图形验证" #if(validation=="1") checked #end>
+				    </div>
+				    <div class="layui-form-mid layui-word-aux">注册时如果发送短信开启验证，通过验证了就可以发送短信，这样可以防刷短信，也可以有别的用途</div>
+				  </div>
+				 <div class="layui-form-item">
+				    <label class="layui-form-label">同一手机每天最多短信次数:</label>
+				    <div class="layui-input-block">
+				      	<input type="text" name="phoneOnLimit" value="#(phoneOnLimit??'')" placeholder="请输入值" autocomplete="off" class="layui-input" lay-verify="required">
+				    </div>
+				    <div class="layui-form-mid layui-word-aux">超过这个次数，这个手机号当天就不能再发送短信了</div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">同一IP每天最多短信次数:</label>
+				    <div class="layui-input-block">
+				      	<input type="text" name="ipOnLimit" value="#(ipOnLimit??'')" placeholder="请输入值" autocomplete="off" class="layui-input" lay-verify="required">
+				    </div>
+				    <div class="layui-form-mid layui-word-aux">	超过这个次数，这个IP当天就不能再发送短信了</div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">同一会员每天最多短信次数:</label>
+				    <div class="layui-input-block">
+				      	<input type="text" name="membersOnLimit" value="#(membersOnLimit??'')" placeholder="请输入值" autocomplete="off" class="layui-input" lay-verify="required">
+				    </div>
+				    <div class="layui-form-mid layui-word-aux">超过这个次数，这个会员当天就不能再发送短信了，注意：此设置只在绑定手机与找回密码时发送短信有效</div>
+				  </div>
+				   <div class="layui-form-item">
+				    <label class="layui-form-label">重新发送短信等待时间:</label>
+				    <div class="layui-input-block">
+				      	<input type="text" name="waitTime" value="#(waitTime??'')" placeholder="请输入值" autocomplete="off" class="layui-input" lay-verify="required">
+				    </div>
+				    <div class="layui-form-mid layui-word-aux">	输入手机号码后，点发送后，发送按钮会变成无用状态，默认1分钟后可以再点发送，单位：秒</div>
+				  </div>
+				  <div class="layui-form-item">
+				    <div class="layui-input-block">
+				      <button class="layui-btn" lay-submit lay-filter="settingBtn">立即提交</button>
+				    </div>
+				  </div>
+			  </fieldset>
+			</form>
+			
+			
+
+<script type="text/javascript" src="#(BASE_PATH)/static/layuiadmin/layui/layui.js"></script>
+<script>
+	var tableIns;
+	layui.use(['table','laydate','form','jquery','element'],function(){
+		var table = layui.table,
+		 	form = layui.form,
+		 	$ = layui.jquery,
+		 	element = layui.element;
+
+		//设置页面
+		form.on('submit(settingBtn)', function(data){
+		     $.post("#(BASE_PATH)/security/notesetting/settingSave",data.field,
+				function(data){
+		    	 layer.msg('提交成功',{icon: 1,time: 2000},function(){
+						
+					}); 
+		    	 
+		     })
+		    return false;
+		  });
+	});
+</script>
+</body>
+</html>

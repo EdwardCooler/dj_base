@@ -1,0 +1,38 @@
+package #(servicePackage);
+
+import com.jfinal.kit.Kv;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.SqlPara;
+
+import #(baseModelPackageName).#(BaseClassName);
+
+/**
+ * 自动生成
+ * @Description
+ * @author 
+ * @category #(date)
+ * @version V0.1
+ */
+
+public class #(serviceClassName){
+	private final #(BaseClassName) #(baseClassName)Dao=new #(BaseClassName)().dao();
+	
+	public Page<#(BaseClassName)> pageJson(int pageNumber, int pageSize, String searchWord) {
+		
+		Kv cond=Kv.create();
+		cond.set("searchWord",searchWord);
+		
+		SqlPara sqlPara=Db.getSqlPara("",cond);	
+		
+		return #(baseClassName)Dao.paginate(pageNumber, pageSize, sqlPara);
+	}
+	//查询
+	public #(BaseClassName) findById(int id) {
+		return #(baseClassName)Dao.findById(id);
+	}
+	//删除
+	public void deleteById(int idValue) {
+		#(baseClassName)Dao.deleteById(idValue);
+	}
+}

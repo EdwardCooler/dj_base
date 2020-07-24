@@ -1,0 +1,41 @@
+#include("/WEB-INF/admin/common/headerNews.html")
+<body class="myListBody">
+<section class="layui-row app layui-col-space20">
+    #include("/WEB-INF/front/homepage/sidebar.html")
+    <div class="dataUrlIframe layui-col-xs9 layui-col-sm9 layui-col-md9">
+    	#if(catid??)
+       		#if(contents.size()>0)
+			#for(content:contents)
+				<div class="myList" data-url="#(BASE_PATH)/index/newsContent?contentid=#(content.id)&navid=#(navid)&type=1&catname=#(content.name)" onclick="List(this)">
+				    <div>
+				        <p>#(content.title)</p>
+				    </div>
+				    <span>#date(content.createTime,'yyyy-MM-dd HH:mm')</span>
+				</div>
+			#end
+			#else
+			<div>暂时没有新闻发布</div>
+			#end 
+     	#else
+     		<a href="#(navsSecond.get(0).url)" id="abiao" #if(navsSecond.get(0).blank) target="_Blank" #end><button type="button" id='clickBtn'></button></a> 
+     	#end
+     </div>
+
+</section>
+
+<script>
+function List(e) {
+    var url =$(e).attr('data-url');
+    window.location.href=url;
+}
+    layui.use(['element','jquery'], function(){
+        var element = layui.element,
+            $=layui.jquery; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        $('#nav_#(fristNavid)',parent.document).addClass("layui-this").siblings().removeClass("layui-this");
+            
+        $("#clickBtn").trigger("click");
+    });
+
+</script>
+</body>
+</html>

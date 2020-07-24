@@ -1,0 +1,5 @@
+2020-01-15 16:02:24.868 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Starting Shiro environment initialization.
+2020-01-15 16:02:25.379 [INFO ] org.apache.shiro.cache.ehcache.EhCacheManager - Using existing EHCache named [shiro-authorizationCache]
+2020-01-15 16:02:25.380 [INFO ] org.apache.shiro.cache.ehcache.EhCacheManager - Using existing EHCache named [shiro-authorizationCache]
+2020-01-15 16:02:25.387 [INFO ] org.apache.shiro.config.IniSecurityManagerFactory - Realms have been explicitly set on the SecurityManager instance - auto-setting of realms will not occur.
+2020-01-15 16:02:25.389 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Shiro environment initialized in 520 ms.

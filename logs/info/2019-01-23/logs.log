@@ -1,0 +1,21 @@
+2019-01-23 14:22:36.623 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Starting Shiro environment initialization.
+2019-01-23 14:22:37.160 [INFO ] org.apache.shiro.cache.ehcache.EhCacheManager - Using existing EHCache named [shiro-authorizationCache]
+2019-01-23 14:22:37.167 [INFO ] org.apache.shiro.config.IniSecurityManagerFactory - Realms have been explicitly set on the SecurityManager instance - auto-setting of realms will not occur.
+2019-01-23 14:22:37.171 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Shiro environment initialized in 546 ms.
+2019-01-23 14:22:46.573 [INFO ] org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Enabling session validation scheduler...
+2019-01-23 14:24:29.542 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Starting Shiro environment initialization.
+2019-01-23 14:24:30.055 [INFO ] org.apache.shiro.cache.ehcache.EhCacheManager - Using existing EHCache named [shiro-authorizationCache]
+2019-01-23 14:24:30.062 [INFO ] org.apache.shiro.config.IniSecurityManagerFactory - Realms have been explicitly set on the SecurityManager instance - auto-setting of realms will not occur.
+2019-01-23 14:24:30.066 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Shiro environment initialized in 522 ms.
+2019-01-23 14:24:32.422 [INFO ] org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Enabling session validation scheduler...
+2019-01-23 14:42:38.680 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Starting Shiro environment initialization.
+2019-01-23 14:42:39.192 [INFO ] org.apache.shiro.cache.ehcache.EhCacheManager - Using existing EHCache named [shiro-authorizationCache]
+2019-01-23 14:42:39.200 [INFO ] org.apache.shiro.config.IniSecurityManagerFactory - Realms have been explicitly set on the SecurityManager instance - auto-setting of realms will not occur.
+2019-01-23 14:42:39.203 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Shiro environment initialized in 521 ms.
+2019-01-23 14:42:48.131 [INFO ] org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Enabling session validation scheduler...
+2019-01-23 15:42:48.169 [INFO ] org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Validating all active sessions...
+2019-01-23 15:42:48.170 [INFO ] org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Finished session validation.  No sessions were stopped.
+2019-01-23 16:42:48.206 [INFO ] org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Validating all active sessions...
+2019-01-23 16:42:48.206 [INFO ] org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Finished session validation.  No sessions were stopped.
+2019-01-23 17:42:48.242 [INFO ] org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Validating all active sessions...
+2019-01-23 17:42:48.242 [INFO ] org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Finished session validation.  No sessions were stopped.

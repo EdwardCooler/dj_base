@@ -1,0 +1,110 @@
+#include("/WEB-INF/admin/common/header.html")
+<body class="childrenBody backgroundWhite">
+<form class="layui-form">
+		<div class="layui-form-item">
+		    <label class="layui-form-label">导航名称：</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="nav.name" lay-verify="required" placeholder="请输入内容" class="layui-input" value="">
+		    </div>
+		 </div>
+		 <div class="layui-form-item">
+		    <label class="layui-form-label">url：</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="nav.url" lay-verify="required" placeholder="请输入内容" class="layui-input" value="">
+		    </div>
+		 </div>
+		 <div class="layui-form-item">
+		    <label class="layui-form-label">排序：</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="nav.orders" lay-verify="required;number" placeholder="请输入内容" class="layui-input" value="">
+		    </div>
+		 </div>
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">颜色：</label>
+		    <div style="margin-left: 30px;">
+			  <input type="hidden" name="nav.color" value="" id="test-all-input">
+			  <div id="test-all"></div>
+			</div>
+		 </div>
+		  <div class="layui-form-item">
+		      <label class="layui-form-label">上级导航：</label>
+		      <div class="layui-input-block">
+		        <select name="nav.upid" lay-verify="" lay-search="">
+		          <option value="0">根 目 录</option>
+		          #for(navList:navList)
+		          <option value="#(navList.id)">#(navList.name)</option>
+		         #end
+		        </select>
+		      </div>
+		  </div>
+		  <div class="layui-form-item">
+                <label class="layui-form-label">是否展示：</label>
+                <div class="layui-input-block">
+                  <input type="checkbox" name="nav.isClosed" lay-skin="switch" lay-text="是|否" value="1">
+                </div>
+          </div>
+           <div class="layui-form-item">
+                <label class="layui-form-label">是否新窗口展示：</label>
+                <div class="layui-input-block">
+                  <input type="checkbox" name="nav.blank" lay-skin="switch" lay-text="是|否" value="1">
+                </div>
+          </div>
+		  <hr class="rollHr" style="margin-top: 40px;">
+		<div class="layui-form-item layui-affirm bouncedFooter">
+			<a class="layui-btn bFffButton" id="peoEditcancelButton">取消</a> 
+			<a class="layui-btn bFaaButton" lay-submit=""  lay-filter="navAdd">确定</a>    	
+		</div>
+	</form>
+<script>
+ var tableIns;
+  layui.config({
+    base: '#(BASE_PATH)/static/layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index','form','colorpicker'],function(){
+	  var $ = layui.$
+	    ,admin = layui.admin
+	    ,table = layui.table
+	    ,colorpicker=layui.colorpicker
+	    ,form = layui.form;
+	  var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+	  
+  
+	//查询
+	  form.on('submit(navAdd)', function(data) {
+		  admin.req({
+              type: 'POST',
+              url: '#(BASE_PATH)/security/nav/saveNav',
+              data: data.field,
+              done : function(data){
+              	layer.msg(data.msg, {time: 1000},function(){
+					 parent.location.reload()
+						parent.layer.close(index); //再执行关闭   
+				 });  
+              }
+          });
+	    });
+	    
+	  colorpicker.render({
+		    elem: '#test-all'
+		    ,color: 'rgba(7, 155, 140, 1)'
+		    ,format: 'rgb'
+		    ,predefine: true
+		    ,alpha: true
+		    ,done: function(color){
+		      $('#test-all-input').val(color); //向隐藏域赋值
+		      
+		      color || this.change(color); //清空时执行 change
+		    }
+		    ,change: function(color){
+		    	
+		    }
+		  });
+	 
+  });
+  function tableReload(){
+		tableIns.reload({});	
+	}
+  </script>
+</body>
+</html>

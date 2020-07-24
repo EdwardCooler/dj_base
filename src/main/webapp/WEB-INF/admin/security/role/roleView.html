@@ -1,0 +1,57 @@
+
+
+#include("/WEB-INF/admin/common/header.html")
+<body class="childrenBody">
+	<form class="layui-form layadd">
+		<div class="layui-form-item">
+			<label class="layui-form-label">角色名称：</label>
+			<div class="layui-input-block">
+				<input type="text"  class="layui-input " value="#(role.name)" name="role.name" disabled="" >
+			</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">角色描述：</label>
+			<div class="layui-input-block">
+			<input type="text" name="role.description" value="#(role.description)"  placeholder="" autocomplete="off" class="layui-input" disabled="">
+			</div>
+		</div>
+		
+	<table  id="roleviewTable" lay-filter="roleviewTable"></table>
+  	<input type="hidden" name="orderIndexs" value="" id="ids">
+ </form>
+ <script type="text/javascript" src="#(BASE_PATH)/static/layuiadmin/layui/layui.js"></script>
+<script >
+layui.use(['laydate','form','jquery','table'],function(){
+		 var form = layui.form,
+		 	$ = layui.jquery,
+		 	table = layui.table,
+		 	laydate=layui.laydate;
+		 
+		 table.render({
+ 		    elem: '#roleviewTable',
+	        	url:'#(BASE_PATH)/security/role/viewPageJson?id='+#(role.id),
+	        	cellMinWidth: 80,
+	        	page:false,
+	        	id: 'roleviewTable',
+		        cols: [[
+		                {field: 'name', title: '权限名',unresize:true},
+		                {field: 'description', title: '权限描述',unresize:true},
+		                ]],  
+		               done: function(res, curr, count) {
+		                                   
+		               },
+		        loading: true,
+ 		  });
+		 //确定
+		 $("#peoEditcancelButton").click(function(){
+	 			var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+	 			console.log(index);
+	 			parent.layer.close(index); //再执行关闭   
+	 		})
+ 		
+})
+
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+#include("/WEB-INF/admin/common/header.html")
+<body class="childrenBody" style="overflow:hidden;">
+	
+	<div class="layui-tab layui-tab-brief">
+	  <ul class="layui-tab-title dataUrl">
+	    <li class="layui-this" data-url="#(BASE_PATH)/security/notesetting/setting">设置</li>
+	    <li data-url="#(BASE_PATH)/security/notesetting/msgApi">基础短信模板接口设置</li>
+	    <li data-url="#(BASE_PATH)/security/notesetting/msgHistory">短信发送记录</li>
+	    <li data-url="#(BASE_PATH)/security/notesetting/msgApiMore">更多短信模板接口设置</li>
+	  </ul>
+	  <div class="layui-tab-content">
+	  	<iframe src="#(BASE_PATH)/security/notesetting/setting" width="100%" class="dataUrlIframe" id="myiframe"  frameborder="0"></iframe>
+	
+	  </div>
+	</div>
+	
+	<script type="text/javascript" src="#(BASE_PATH)/static/layuiadmin/layui/layui.js"></script>
+	<script>
+	layui.use(['table','laydate','form','jquery','element'],function(){
+		var table = layui.table,
+		 	form = layui.form,
+		 	$ = layui.jquery,
+		 	element = layui.element;
+		
+		//iframe高度随窗口自适应
+		changeFrameHeight();
+		$(window).resize(function(){
+			changeFrameHeight();
+		})
+		//点击导航栏
+		$(".dataUrl li").off('click').on('click',function(){
+			layer.load();
+			$(this).addClass('layui-this').siblings().removeClass('layui-this');
+			var url = $(this).attr('data-url');
+			$('.dataUrlIframe').attr('src',url);
+			layer.closeAll('loading');
+			changeFrameHeight();
+		});
+		
+		 
+	})
+	
+	//iframe高度自适应
+	function changeFrameHeight(){
+	    var ifm= document.getElementById("myiframe"); 
+	    ifm.height=document.documentElement.clientHeight-110;
+	}
+	
+	</script>
+</body>
+</html>
+
+

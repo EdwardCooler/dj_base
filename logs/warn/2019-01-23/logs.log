@@ -1,0 +1,16 @@
+2019-01-23 14:23:44.379 [WARN ] com.jfinal.core.ActionHandler - 404 Action Not Found: /security/null
+2019-01-23 14:24:37.703 [WARN ] com.jfinal.core.ActionHandler - 404 Action Not Found: /security/null
+2019-01-23 14:24:41.803 [WARN ] com.jfinal.core.ActionHandler - 404 Action Not Found: /security/district
+2019-01-23 14:24:42.575 [WARN ] com.jfinal.core.ActionHandler - 404 Action Not Found: /security/null
+2019-01-23 14:24:42.957 [WARN ] com.jfinal.core.ActionHandler - 404 Action Not Found: /security/paysetting
+2019-01-23 14:24:52.954 [WARN ] com.jfinal.core.ActionHandler - 404 Action Not Found: /security/null
+2019-01-23 14:42:39.133 [WARN ] net.sf.ehcache.DiskStorePathManager - diskStorePath 'C:\Users\ADMINI~1\AppData\Local\Temp\shiro-ehcache' is already used by an existing CacheManager either in the same VM or in a different process.
+The diskStore path for this CacheManager will be set to C:\Users\ADMINI~1\AppData\Local\Temp\shiro-ehcache\ehcache_auto_created2319408299089664546diskstore.
+To avoid this warning consider using the CacheManager factory methods to create a singleton CacheManager or specifying a separate ehcache configuration (ehcache.xml) for each CacheManager instance.
+2019-01-23 14:42:39.133 [WARN ] net.sf.ehcache.store.disk.DiskStorageFactory - Data in persistent disk stores is ignored for stores from automatically created directories.
+Remove diskPersistent or resolve the conflicting disk paths in cache configuration.
+Deleting data file C:\Users\ADMINI~1\AppData\Local\Temp\shiro-ehcache\ehcache_auto_created2319408299089664546diskstore\shiro-authorization%0043ache.data
+2019-01-23 14:43:39.624 [WARN ] com.jfinal.core.ActionHandler - 404 Action Not Found: /security/null
+2019-01-23 14:43:43.026 [WARN ] com.jfinal.core.ActionHandler - 404 Action Not Found: /security/district
+2019-01-23 14:43:43.653 [WARN ] com.jfinal.core.ActionHandler - 404 Action Not Found: /security/null
+2019-01-23 14:43:43.953 [WARN ] com.jfinal.core.ActionHandler - 404 Action Not Found: /security/paysetting

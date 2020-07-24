@@ -1,0 +1,115 @@
+
+
+#include("/WEB-INF/admin/common/header.html")
+<body class="childrenBody">
+	<form class="layui-form layadd">
+		<div class="layui-form-item">
+			<label class="layui-form-label">设置名称：</label>
+			<div class="layui-input-block">
+				<input type="text"  class="layui-input " name="asCommonSetting.name" lay-verify="required" >
+			</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">设置值：</label>
+			<div class="layui-input-block">
+			<input type="text" lay-verify="required" id="asCommonSettingimage" name="asCommonSetting.value"   placeholder="" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">备注：</label>
+			<div class="layui-input-block">
+			<input type="text" lay-verify="required"  name="asCommonSetting.notes"   placeholder="" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+		    <label class="layui-form-label">系统设置：</label>
+		    <div class="layui-input-block">
+		      <input type="radio" name="asCommonSetting.issystem" value=true title="是" checked="checked">
+		      <input type="radio" name="asCommonSetting.issystem" value=false title="否">
+		    </div>
+ 		 </div>
+		 <div class="layui-form-item">
+		    <label class="layui-form-label">图片上传：</label>
+		    <div class="layui-input-inline">
+		       <button type="button" class="layui-btn" id="hukou">上传图片</button>
+				<div class="layui-upload-list">
+					<input type="hidden" id="hukouImgVal" name="hukouPicture" value="" >
+				    <img class="layui-upload-img" width="150" id="hukouImg">
+				    <p id="hukouText"></p>
+				</div>
+		    </div>
+	  	</div>
+		
+  		<input type="hidden" name="orderIndexs" value="" id="ids">
+		<div class="layui-form-item layui-affirm">
+			<button class="layui-btn" lay-submit="" id="commonsettingadd" lay-filter="commonsettingadd">确定</button>    	
+		</div>
+ </form>
+  <script >
+layui.use(['laydate','form','jquery','table','upload'],function(){
+		 var form = layui.form,
+		 	$ = layui.jquery,
+		 	table = layui.table,
+		 	laydate=layui.laydate;
+    	      //添加
+   		  form.on('submit(commonsettingadd)', function(data) {
+   			  $.post('/security/commonsetting/save',data.field,function(msg){
+    	    		 if(msg.code=="0"){ 
+    	    			 layer.msg(msg.msg, {time: 1000},function(){
+    	    				parent.layer.closeAll();
+    	    				parent.tableReload();
+    	    			 });  			
+    	    		 }else{
+    	    			
+    	    			 layer.open({
+    	    			        type: 1,				       
+    	    			        id: 'message',
+    	    			        content: '<div style="padding: 20px 100px;">'+ msg.msg +'</div>',
+    	    			        btn: '确定',
+    	    			        btnAlign: 'c',
+    	    			        shade: 0.4 ,
+    	    			        yes: function(){
+    	    			         layer.closeAll();
+    	    			        }
+    	    			    });
+    	    		 }		 
+    	    	  });
+    	          return false;
+   		    });
+    	      
+   		 var uploadInst = layui.upload.render({
+   		    elem: '#hukou'
+   		    ,url: '#(BASE_PATH)/file/image/upload/picUpload'
+   		    ,before: function(obj){
+   		      //预读本地文件示例，不支持ie8
+   		      obj.preview(function(index, file, result){
+   		    	  var fileSize = (file.size/(1024*1024)).toFixed(2);//图片大小，单位M
+   		    	  if(fileSize<3){
+   		        	$('#hukouImg').attr('src', result); //图片链接（base64）
+   		    	  }
+   		      });
+   		    }
+   		    ,done: function(res){
+   		      if(res.error==-1){//上传失败
+   		     layer.msg(res.message);
+   		     }else{//上传成功
+   		      	$("#hukouImgVal").val(res.filename);
+   		  	 	$("#asCommonSettingimage").val(res.filename);
+   		      }
+   		    }
+   		    ,error: function(){
+   		      //演示失败状态，并实现重传
+   		      var demoText = $('#hukouText');
+   		      demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+   		      demoText.find('.demo-reload').on('click', function(){
+   		        uploadInst.upload();
+   		      });
+   		    }
+   		  });
+
+    	      
+})
+
+</script>
+</body>

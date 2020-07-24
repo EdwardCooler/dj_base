@@ -1,0 +1,13 @@
+<div class="messageTitle layui-col-xs2 layui-col-sm2 layui-col-md2">
+		<div class="firstNav">
+		<span class="lineBlue"></span>
+		#(fristName)
+		</div>
+        <ul class="layui-nav layui-nav-tree layui-inline newsCategory dataUrlHeader" lay-filter="demo" style="margin-right: 10px;">
+             #for(navsSecondone:navsSecond)
+               <li class="layui-nav-item #if(navsSecondone.id==navid) layui-this #end">
+               
+               <a #if(navsSecondone.url.substring(0,4)=='http')  href="#(navsSecondone.url)" #else href="#(BASE_PATH)#(navsSecondone.url)" #end  #if(navsSecondone.blank) target="_Blank" #end ><span class="alittle"></span><span> #(navsSecondone.name)</span></a></li>
+             #end
+        </ul>
+    </div>

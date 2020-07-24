@@ -1,0 +1,170 @@
+
+
+#include("/WEB-INF/admin/common/header.html")
+<body class="childrenBody">
+	<form class="layui-form layadd">
+		<div class="layui-form-item">
+			<label class="layui-form-label">登陆名:</label>
+			<div class="layui-input-block">
+				<input type="text"  class="layui-input " name="user.username" lay-verify="required" >
+			</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">真实姓名</label>
+			<div class="layui-input-block">
+			<input type="text" lay-verify="required" name="user.realname"   placeholder="" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">昵称</label>
+			<div class="layui-input-block">
+			<input type="text" lay-verify="required" name="user.nickname"   placeholder="" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">密码</label>
+			<div class="layui-input-block">
+			<input type="text" lay-verify="required" name="user.plainPassword"  placeholder="" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">联系电话:</label>
+			<div class="layui-input-block ">
+				<input  type="text"  class="layui-input " name="user.telephone" lay-verify="required"  >
+			</div>
+		</div>
+		
+		
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">email:</label>
+			<div class="layui-input-block">
+				<input type="num" class="layui-input " name="user.email" lay-verify="required|email" >
+			</div>
+		</div>
+		
+		
+		<div class="layui-form-item">
+	    	    <div class="layui-inline">
+			      <label class="layui-form-label">所在部门</label>
+			      <div class="layui-input-inline">
+			        <select name="user.org"  lay-verify="required" lay-search="">
+			        <option value="">直接选择或搜索部门</option>
+				       #for(o:p_org)
+				         <option value="#(o.id)">#(o.name)</option>
+				       #end
+			       </select>
+			      </div>
+			      </div>
+		 </div>
+		
+<div class="layui-form-item">
+    <label class="layui-form-label">性别</label>
+    <div class="layui-input-block">
+      <input type="radio" name="sex" value=0 title="男" checked="">
+      <input type="radio" name="sex" value=1 title="女">
+    </div>
+  </div>
+	
+	<div class="layui-table-diaglo">		
+		<table class="layui-hide" id="useraddTable" lay-filter="useraddTable" lay-data="{id: 'useraddTable'}"></table>
+  	</div>
+  	
+  	<input type="hidden" name="orderIndexs" value="" id="ids">
+		<div class="layui-form-item layui-affirm">
+			<button class="layui-btn" lay-submit="" id="useradd"  lay-filter="useradd">确定</button>    	
+		</div>
+ </form>
+ <script type="text/javascript" src="#(BASE_PATH)/static/layuiadmin/layui/layui.js"></script>
+<script >
+
+layui.use(['laydate','form','jquery','table'],function(){
+		 var form = layui.form,
+		 	$ = layui.jquery,
+		 	table = layui.table,
+		 	laydate=layui.laydate;
+		 
+		 table.render({
+ 		    elem: '#useraddTable',
+	        	url:'#(BASE_PATH)/security/user/addPageJson',
+	        	cellMinWidth: 80,
+	        	id: 'useraddTable',
+	        
+		        cols: [[
+						{type:'checkbox'},
+		                {field: 'name', title: '角色名',unresize:true},
+		                {field: 'description', title: '角色描述',unresize:true},
+		                ]],  
+		               done: function(res, curr, count) {
+		                                   
+		               },
+		        loading: true,
+ 		  });
+ 			//监听表格复选框选择
+			 $("#useradd").click(function(){
+				 var checkedArr=[];
+				 table.on('checkbox(useraddTable)', function(obj){
+					 if (obj.type=='all') return;
+					 if (obj.checked){
+					 	checkedArr[obj.data.id] = obj.data.LAY_TABLE_INDEX;
+					 }
+					 else{
+					 	delete checkedArr[obj.data.id];
+					 }
+				 });
+				 var checkStatus = table.checkStatus('useraddTable')
+				 	,data = checkStatus.data, tmpArr = [], ids = [];
+				 if (checkStatus.isAll){
+					 for (var i=0; i<data.length ; i++){
+					 	checkedArr[data[i].id]=i;
+					 	ids.push(data[i].id);
+					 }
+				 }
+				 else{ 
+					 for (var i=0; i<data.length ; i++){
+						 tmpArr[data[i].id]=checkedArr[data[i].id];
+						 ids.push(data[i].id);
+					 }
+					 checkedArr = tmpArr;
+				 }
+				 ids=ids.toString();
+				 console.log(ids);
+			  $("#ids").val(ids);
+				 console.log( $("#ids").val());
+			 })
+    	      //添加
+    		  form.on('submit(useradd)', function(data) {
+    			  $.post('/security/user/save',data.field,function(msg){
+     	    		 if(msg.code=="0"){
+     	    			 
+     	    			 layer.msg(msg.msg, {time: 1000},function(){
+     	    				parent.layer.closeAll();
+     	    				parent.tableReload();
+     	    			 });  			
+     	    		 }else{
+     	    			
+     	    			 layer.open({
+     	    			        type: 1,				       
+     	    			        id: 'message',
+     	    			        content: '<div style="padding: 20px 100px;">'+ msg.msg +'</div>',
+     	    			        btn: '确定',
+     	    			        btnAlign: 'c',
+     	    			        shade: 0.4 ,
+     	    			        yes: function(){
+     	    			         layer.closeAll();
+     	    			        }
+     	    			    });
+     	    		 }		 
+     	    	  });
+     	          return false;
+    		    });
+    	      
+})
+
+</script>
+</body>
+</html>

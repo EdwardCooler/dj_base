@@ -1,0 +1,92 @@
+#include("/WEB-INF/admin/common/headerNews.html")
+<body>
+<section class="layui-row app">
+    <div class="messageTitle layui-col-xs2 layui-col-sm2 layui-col-md2">
+        <ul class="layui-nav layui-nav-tree layui-inline newsCategory dataUrlHeader" lay-filter="demo" style="margin-right: 10px;">
+             #for(navsSecondone:navsSecond)
+               <li class="layui-nav-item #if(navsSecondone.id==navid) layui-this #end" data-url="">
+               <a href='#(navsSecondone.url)' #if(navsSecondone.blank) target="_Blank" #end >#(navsSecondone.name)</a></li>
+             #end
+        </ul>
+    </div>
+
+    <div class="dataUrlIframe layui-col-xs9 layui-col-sm9 layui-col-md9">
+    	#if(catid??)
+       		<a href="#(BASE_PATH)/index/newsList?navid=#(navid)&catid=#(catid)"  id="abiao"><button type="button" id='clickBtn'></button></a> 
+     	#else
+     		<a #if(navsSecond.get(0).url.substring(0,4)=='http')  href="#(navsSecond.get(0).url)" #else href="#(BASE_PATH)#(navsSecond.get(0).url)" #end id="abiao" #if(navsSecond.get(0).blank) target="_Blank" #end><button type="button" id='clickBtn'></button></a> 
+     	#end
+     </div>
+
+</section>
+<script>
+    var browserVersion = window.navigator.userAgent.toUpperCase();
+    var isOpera = browserVersion.indexOf("OPERA") > -1 ? true : false;
+    var isFireFox = browserVersion.indexOf("FIREFOX") > -1 ? true : false;
+    var isChrome = browserVersion.indexOf("CHROME") > -1 ? true : false;
+    var isSafari = browserVersion.indexOf("SAFARI") > -1 ? true : false;
+    var isIE = (!!window.ActiveXObject || "ActiveXObject" in window);
+    var isIE9More = (! -[1,] == false);
+    function reinitIframe(iframeId, minHeight) {
+        try {
+            var iframe = document.getElementById(iframeId);
+            var bHeight = 0;
+            if (isChrome == false && isSafari == false) {
+                try {
+                    bHeight = iframe.contentWindow.document.body.scrollHeight;
+                } catch (ex) {
+                }
+            }
+            var dHeight = 0;
+            if (isFireFox == true)
+                dHeight = iframe.contentWindow.document.documentElement.offsetHeight + 2;//如果火狐浏览器高度不断增加删除+2
+            else if (isIE == false && isOpera == false && iframe.contentWindow) {
+                try {
+                    dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+                } catch (ex) {
+                }
+            }
+            else if (isIE == true && isIE9More) {//ie9+
+                var heightDeviation = bHeight - eval("window.IE9MoreRealHeight" + iframeId);
+                if (heightDeviation == 0) {
+                    bHeight += 3;
+                } else if (heightDeviation != 3) {
+                    eval("window.IE9MoreRealHeight" + iframeId + "=" + bHeight);
+                    bHeight += 3;
+                }
+            }
+            else//ie[6-8]、OPERA
+                bHeight += 3;
+
+            var height = Math.max(bHeight, dHeight);
+            if (height < minHeight) height = minHeight;
+            //alert(iframe.contentWindow.document.body.scrollHeight + "~" + iframe.contentWindow.document.documentElement.scrollHeight);
+            iframe.style.height = height + "px";
+        } catch (ex) { }
+    }
+    function startInit(iframeId, minHeight) {
+        eval("window.IE9MoreRealHeight" + iframeId + "=0");
+        window.setInterval("reinitIframe('" + iframeId + "'," + minHeight + ")", 100);
+    }
+</script>
+<script>
+    layui.use(['element','jquery'], function(){
+        var element = layui.element,
+            $=layui.jquery; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        $(window).on('resize', function () {
+            startInit('mainFrame', 560);
+        }).resize();
+
+        $('.dataUrlHeader  li').off('click').on('click', function() {
+            document.getElementById("mainFrame").style.minHeight = "0px";
+            startInit('mainFrame', 560);
+            var url =$(this).attr('data-url');
+            $(".dataUrlIframe iframe").attr('src',url);
+            $(this).addClass("layui-this").siblings().removeClass("layui-this");
+        });
+        $("#clickBtn").trigger("click");
+    });
+</script>
+
+</body>
+</html>

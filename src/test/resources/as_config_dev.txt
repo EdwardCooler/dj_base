@@ -1,0 +1,7 @@
+jdbcUrl = jdbc:mysql://localhost/jzero_demo?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+user = root
+password = 
+devMode = true
+
+
+schedule  =false

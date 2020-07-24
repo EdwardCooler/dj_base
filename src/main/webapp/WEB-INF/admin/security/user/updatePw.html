@@ -1,0 +1,76 @@
+ #include("/WEB-INF/admin/common/header.html")
+<body>
+  <div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+      <div class="layui-col-md12">
+        <div class="layui-form" lay-filter="">
+            <div class="layui-form-item">
+              <label class="layui-form-label">当前密码</label>
+              <div class="layui-input-inline">
+                <input type="password" name="passwordVO.oldPw" lay-verify="required" lay-verType="tips" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">新密码</label>
+              <div class="layui-input-inline">
+                <input type="password" name="" lay-verify="pass" lay-verType="tips" autocomplete="off" id="LAY_password" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">6到16个字符</div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">确认新密码</label>
+              <div class="layui-input-inline">
+                <input type="password" name="passwordVO.newPw" lay-verify="repass" lay-verType="tips" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="submitPassword">确认修改</button>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+<script type="text/javascript">
+layui.config({
+    base: '#(BASE_PATH)/static/layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index','table','form','set'], function(){
+      // 操作对象
+      var $ = layui.$
+	    ,admin = layui.admin
+	    ,table = layui.table
+	    ,form = layui.form
+	    ,dialogIndex = parent.layer.getFrameIndex(window.name);
+
+      form.on('submit(submitPassword)', function(data){
+      	admin.req({
+              type: 'POST',
+              url: '#(BASE_PATH)/admin/savePw',
+              data: data.field,
+              done : function(data){
+            	  //提交后后台返回code码判断是否修改成功，不成功提示不成功原因，成功后提示成功并跳转到登录页面
+            	
+           		  layer.msg(data.msg,{time:1000});
+           		  setTimeout(function (){
+                		//关闭所有窗口
+                		parent.layer.close(dialogIndex);
+                		//密码修改成功后跳转到登录页面
+                		top.location.href='#(BASE_PATH)/security/user/logout';
+                	},2000); 
+            	  
+               	
+              }
+          });
+
+          return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+      });
+      
+      
+
+  });
+</script>
+</body>
+</html>

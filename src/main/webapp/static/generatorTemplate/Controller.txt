@@ -1,0 +1,65 @@
+package #(controllerPackage);
+
+import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.aop.Inject;
+import jzero.admin.common.controller.BaseAdminController;
+import jzero.admin.model.#(BaseClassName);
+import #(servicePackage).#(serviceClassName);
+import jzero.base.layui.LayuiRender;
+
+/**
+ * 自动生成
+ * @Description
+ * @author 
+ * @category #(date)
+ * @version V0.1
+ */
+ 
+public class #(controllerClassName) extends BaseAdminController {
+
+	@Inject
+	#(serviceClassName)   m_#(serviceClassName);
+	
+	@Override
+	public void index() {
+		
+	}
+	
+	public void pageJson(){
+		Integer pageNumber = getParaToInt("page", 1);
+		Integer pageSize = getParaToInt("limit", 20);
+		String searchWord = getPara("word","");
+		
+		Page<#(BaseClassName)> page = m_#(serviceClassName). pageJson(pageNumber, pageSize,searchWord);
+		render(LayuiRender.page(page));
+	}
+	
+	public void view(){
+	
+	}
+	
+	@Override
+	public void add() {
+
+	}
+	@Override
+	public void save() {
+		getModel(#(BaseClassName).class).save();
+		render(LayuiRender.success("保存成功"));
+	}
+	@Override
+	public void edit() {
+		setAttr("#(BaseClassName)", m_#(serviceClassName).findById(getParaToInt()));
+	}
+	@Override
+	public void update() {
+		getModel(#(BaseClassName).class).update();
+		render(LayuiRender.success("保存成功"));
+	}
+	@Override
+	public void delete() {
+		m_#(serviceClassName).deleteById(getParaToInt());
+		render(LayuiRender.success("删除成功"));
+	}
+
+}

@@ -1,0 +1,149 @@
+/***************************************************公共*****************************************************/
+/* ::-webkit-scrollbar {width: 10px;height: 10px;}
+::-webkit-scrollbar-button:vertical {display: none;}
+::-webkit-scrollbar-track,::-webkit-scrollbar-corner { background-color: #e2e2e2;}
+::-webkit-scrollbar-thumb {border-radius: 0;background-color: rgba(0, 0, 0, .3);}
+::-webkit-scrollbar-thumb:vertical:hover {background-color: rgba(0, 0, 0, .35);}
+::-webkit-scrollbar-thumb:vertical:active {background-color: rgba(0, 0, 0, .38);} */
+
+
+/***************************************************最顶部*****************************************************/
+.kit-layout-admin .kit-logo-mobile { display: none;}
+.layui-layout-admin .layui-header .layui-layout-right {padding: 0;}
+.kit-nav .layui-nav-item {line-height: 50px;}
+.kit-nav .layui-nav-item .layui-nav-child {top: 55px;}
+.kit-nav .layui-this {background-color: #393D49!important;}
+.kit-nav * {font-size: 13px;}
+/* .layui-layout-left .layui-nav-item:hover {background-color: #393D49!important;} */
+.kit-nav .layui-nav-bar {height: 0;}
+.kit-nav .layui-this:after { content: none;}
+.kit-layout-admin .layui-logo {line-height: 50px;}
+
+/***************************************************最底部*****************************************************/
+.kit-layout-admin .layui-footer {height: 35px;line-height: 35px;text-align: center;padding:5px 0;}
+.layui-footer .layui-btn{margin-left:10px;}
+
+/***************************************************中间内容*****************************************************/
+.kit-layout-admin .layui-body {bottom: 35px;top: 50px;}
+.kit-layout-admin .layui-header {height: 50px;}
+.kit-layout-admin .kit-body-folded,.kit-layout-admin .kit-footer-folded {left: 50px;}
+
+/***************************************************侧边栏*****************************************************/
+.kit-layout-admin .kit-side {top: 50px;}
+.kit-layout-admin .kit-sided {width: 50px;}
+.kit-side .layui-side-scroll {width: auto;}
+.kit-side .layui-side-scroll .kit-side-fold {height: 35px; background-color: #4A5064;color: #aeb9c2;line-height: 35px;
+    text-align: center;cursor: pointer;}
+.kit-sided .layui-side-scroll .layui-nav-item {text-align: center;}
+.kit-sided .layui-side-scroll .layui-nav-item a { padding: 0;}
+.kit-side .layui-nav-tree .layui-nav-child a {padding-left: 30px;}
+.kit-sided .layui-nav-tree .layui-nav-child a {padding-left: 0;}
+.kit-sided .layui-side-scroll a span {display: none;}
+.kit-side .layui-side-scroll .layui-nav-tree {width: auto;}
+.childrenBody{padding:10px;}
+.layui-nav *{font-size:16px;}
+
+/***************************************************选项卡*****************************************************/
+.kit-tab {margin: 0;position: relative;border-bottom: 0;box-shadow: none;}
+.kit-tab .kit-tab-tool {position: absolute;width: 60px;height: 40px;top: 0;right: 10px;border-bottom: 1px solid #e2e2e2;
+    border-left: 1px solid #e2e2e2;line-height: 40px;text-align: center;cursor: pointer;border-right: 1px solid #e2e2e2;}
+.kit-tab .kit-tab-tool:hover {background-color: #f3f3f3;}
+.kit-tab .kit-tab-tool-body { position: absolute;top: 40px;right: 10px;width: 150px;border: 1px solid #e2e2e2;
+    display: none;background-color: white;z-index: 999;}
+.kit-tab .kit-tab-tool-body ul {text-align: center;padding: 8px 0;}
+.kit-tab .kit-tab-tool-body ul li.kit-item {line-height: 35px;cursor: pointer;color: #393D49;}
+.kit-tab .kit-tab-tool-body ul li.kit-item:hover { background-color: #f3f3f3;}
+.kit-tab .kit-tab-tool-body .kit-line {border-bottom: 1px solid #e2e2e2;}
+.kit-tab .layui-tab-title {width: calc(100% - 71px);padding-right: 0;position: absolute;z-index: 2;}
+.kit-tab .layui-tab-content { padding: 0; position: relative;top: 41px;overflow-y: auto;}
+.kit-tab .layui-tab-content iframe {width: 100%;border: 0;}
+
+/***************************************************弹窗*****************************************************/
+/*添加弹窗*/
+.layadd{width:700px;margin: 0 auto;}
+.layadd .layui-input-block{width:300px}
+.intervalday-item .layui-input-block input{display: inline-block; width:262px;}
+.intervalday-item .layui-input-block .day{display: inline-block; width:40px;height: 30px;font-size: 16px;background-color:#F0F0F0;
+	vertical-align: middle;text-align: center;padding-top: 10px;margin-left: -6px;}
+.layui-affirm{text-align: center;}
+.layui-affirm button{padding: 0 34px;height:34px;line-height: 34px;margin-top: 30px;}
+
+/**********************************************表格**********************************************************/
+/* 表格中的按钮 */
+.operation a{color:#009688;border:1px solid #009688;border-radius:2px;padding:4px 6px;margin-right:10px;}
+
+/* 查询中的按钮 */
+.layui-form-search .layui-search{background-color: #009688;}
+.layui-form-search .input-width{width:300px;}
+.layui-add,.layui-add:hover{background-color: #fff;color:#009688;border:1px solid #009688;}
+.layui-form-search  .layui-form-label{color:#95999a;}
+
+/*数据表格  */
+.data-table-Wrapper .layui-table-header .layui-table-cell{white-space: normal;} 
+.data-table-Wrapper .layui-table-cell{height:auto;padding:0 5px;}
+
+/* 弹窗中的表格 */
+.layui-table-diaglo .layui-table-body{overflow:hidden;}/* 解决弹窗中表格出现横向滚动条 */
+
+/**********************************************短信设置**********************************************************/
+.setting{width:100%;}
+.setting .layui-form-label{width:98%;text-align: left;}
+.setting .layui-input-block{width:30%;margin:0 15px;float:left;}
+.setting .layui-elem-field{border-color: #009688;}
+
+
+/**********************************************滚动条样式修改**********************************************************/
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/ 
+/* ::-webkit-scrollbar 
+{ 
+    width: 8px; 
+    height: 8px; 
+    background-color: #f5f5f5; 
+} 
+    */
+/*定义滚动条轨道 内阴影+圆角*/ 
+/* ::-webkit-scrollbar-track 
+{ 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px; 
+    background-color: #f5f5f5; 
+}  */
+   
+/*定义滑块 内阴影+圆角*/ 
+/* ::-webkit-scrollbar-thumb 
+{ 
+    border-radius: 10px; 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3); 
+    background-color: #9d9d9d; 
+} */
+/***************************************************响应式*****************************************************/
+@media (max-width: 992px) {
+    .kit-layout-admin .layui-body,
+    .kit-layout-admin .layui-footer {left: 50px;}
+    .kit-layout-admin .kit-side {width: 50px;}
+    .kit-layout-admin .kit-side .layui-side-scroll .layui-nav li.layui-nav-item,
+    .kit-layout-admin .kit-side .layui-side-scroll .layui-nav li.layui-nav-item dl dd {
+        text-align: center;
+    }
+    .kit-layout-admin .kit-side .layui-side-scroll .layui-nav li.layui-nav-item a,
+    .kit-layout-admin .kit-side .layui-side-scroll .layui-nav li.layui-nav-item dl dd a {
+        padding: 0;
+    }
+    .kit-layout-admin .kit-side .layui-side-scroll .layui-nav li.layui-nav-item a span,
+    .kit-layout-admin .kit-side .layui-side-scroll .layui-nav li.layui-nav-item dl dd a span {
+        display: none;
+    }
+    .kit-side .layui-side-scroll .kit-side-fold {display: none;}
+    .kit-layout-admin .layui-logo {display: none;}
+    .kit-layout-admin .kit-logo-mobile {display: block;width: 50px;}
+    .kit-layout-admin .layui-layout-left {left: 50px;}
+    .kit-table .kit-search-mored {width: 100%;box-shadow: 0 4px 7px -3px #ccc;}
+    .kit-sided .layui-nav-tree .layui-nav-child a,.kit-side .layui-nav-tree .layui-nav-child a {padding-left: 0;}
+}
+/*******消除layuiAdmin的弹窗溢出问题*******/
+.layui-layer-admin .layui-layer-content {
+    padding: 0;
+}
+/* 设置背景色 */
+.backgroundWhite{background:#fff;}
+.layui-form-select dl{z-index:99999;}

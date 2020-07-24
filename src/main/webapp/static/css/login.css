@@ -1,0 +1,49 @@
+
+/***************************************************登录*****************************************************/
+.borderNone{border:none;}
+.main_box {
+    padding: 30px; width:530px; height:380px;margin:12% auto 20px;
+    background: #FAFAFA; background: rgba(255,255,255,0.5); border: 1px #DDD solid;
+    border-radius: 10px;}
+.titleLogin{text-align:center;border-bottom: 1px dashed #c1c1c1;color:#250d3f;font-size:24px;padding-bottom:20px;}
+.main_box .layui-form{padding-top:28px;width:353px;margin:0 auto;text-align: right;}
+.main_box .layui-input-block{margin-left:0;width:350px;text-align: left;}
+.main_box .main_form_bottom a{color:#fff;}
+.main_box .main_form_bottom{padding-top:10px;}
+.layui-form-item-submit{margin-top:20px;}
+.layui-form-item-submit .layui-btn{width:350px;background:#f6ac15 ;height: 48px;line-height: 48px;font-size: 16px;}
+.layui-form-item-checked{}
+.layui-form-item-checked input{width:237px;display:inline-block;}
+.layui-form-item-checked img{cursor: pointer;}
+.layui-form-item-rember{margin:0;}
+.forgetPsw{display:inline-block;margin-top:5px;color:#f40;}
+.copyright{text-align:center;color:#fff;margin-bottom:80px;}
+
+/***************************************************注册*****************************************************/
+
+.registerHeader{text-align:center;margin-bottom: 60px;}
+.registerHeader a{cursor: pointer;font-size:16px;width:210px;display:inline-block;height:28px;line-height:28px;background:#fff;color:#333;padding:4px 0;}
+.registerHeader a.active{background:#920784;color:#fff;cursor: default;}
+.registerBox{ padding: 30px; width:800px; height:630px;margin:0 auto 20px;
+    background: #FAFAFA; background: rgba(255,255,255,0.5); border: 1px #DDD solid;
+    border-radius: 5px;}
+.techRegisterLink{margin-left:-4px;}
+.registerBox .layui-input-block{width:250px}
+.registerBox .layui-form-radio i:hover, .layui-form-radioed i{color:#920784}
+.registerBox .layui-form{margin-top:36px;}
+.registerBox .layui-form-radio i{color:#920784}
+.registerBox  .layui-form-item-submit{text-align: center;margin-top: 80px;}
+.layui-form-select dl dd.layui-this{background-color:#c59ac7}
+
+.registerContent button,.registerContent .layui-upload-list{display:inline-block}
+.registerContent button{background-color:#c59ac7;}
+.registerContent  .layui-upload-list{margin:0;border: none;}
+.registerContent .layui-upload-img{width:50px;height:50px;}
+.portrait-reload{padding: 0 6px;font-size: 12px;background-color:#920784;}
+
+.registerBox .layui-input-read{width:500px;}
+.registerBox .layui-form-item .layui-input-read .layui-form-checkbox[lay-skin=primary]{margin-top:0;}
+.registerBox .layui-form-item .layui-input-read .layui-form-checkbox[lay-skin=primary] span{padding-right:0;color:#000;}
+
+/**************************************************忘记密码****************************************************/
+.getCode{position:absolute;right:0;top:0;background:#f40;}

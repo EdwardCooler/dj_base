@@ -1,0 +1,29 @@
+2019-01-03 14:14:56.188 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Starting Shiro environment initialization.
+2019-01-03 14:14:56.719 [INFO ] org.apache.shiro.cache.ehcache.EhCacheManager - Using existing EHCache named [shiro-authorizationCache]
+2019-01-03 14:14:56.726 [INFO ] org.apache.shiro.config.IniSecurityManagerFactory - Realms have been explicitly set on the SecurityManager instance - auto-setting of realms will not occur.
+2019-01-03 14:14:56.729 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Shiro environment initialized in 539 ms.
+2019-01-03 14:15:12.169 [INFO ] org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Enabling session validation scheduler...
+2019-01-03 21:22:17.075 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Starting Shiro environment initialization.
+2019-01-03 21:22:17.597 [INFO ] org.apache.shiro.cache.ehcache.EhCacheManager - Using existing EHCache named [shiro-authorizationCache]
+2019-01-03 21:22:17.606 [INFO ] org.apache.shiro.config.IniSecurityManagerFactory - Realms have been explicitly set on the SecurityManager instance - auto-setting of realms will not occur.
+2019-01-03 21:22:17.610 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Shiro environment initialized in 534 ms.
+2019-01-03 21:38:34.571 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Starting Shiro environment initialization.
+2019-01-03 21:38:35.169 [INFO ] org.apache.shiro.cache.ehcache.EhCacheManager - Using existing EHCache named [shiro-authorizationCache]
+2019-01-03 21:38:35.177 [INFO ] org.apache.shiro.config.IniSecurityManagerFactory - Realms have been explicitly set on the SecurityManager instance - auto-setting of realms will not occur.
+2019-01-03 21:38:35.180 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Shiro environment initialized in 608 ms.
+2019-01-03 21:38:47.871 [INFO ] org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Enabling session validation scheduler...
+2019-01-03 21:41:45.801 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Starting Shiro environment initialization.
+2019-01-03 21:44:45.654 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Starting Shiro environment initialization.
+2019-01-03 21:44:46.166 [INFO ] org.apache.shiro.cache.ehcache.EhCacheManager - Using existing EHCache named [shiro-authorizationCache]
+2019-01-03 21:44:46.174 [INFO ] org.apache.shiro.config.IniSecurityManagerFactory - Realms have been explicitly set on the SecurityManager instance - auto-setting of realms will not occur.
+2019-01-03 21:44:46.178 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Shiro environment initialized in 522 ms.
+2019-01-03 21:44:50.170 [INFO ] org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Enabling session validation scheduler...
+2019-01-03 21:46:18.429 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Starting Shiro environment initialization.
+2019-01-03 21:46:18.943 [INFO ] org.apache.shiro.cache.ehcache.EhCacheManager - Using existing EHCache named [shiro-authorizationCache]
+2019-01-03 21:46:18.950 [INFO ] org.apache.shiro.config.IniSecurityManagerFactory - Realms have been explicitly set on the SecurityManager instance - auto-setting of realms will not occur.
+2019-01-03 21:46:18.953 [INFO ] org.apache.shiro.web.env.EnvironmentLoader - Shiro environment initialized in 522 ms.
+2019-01-03 21:46:23.645 [INFO ] org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Enabling session validation scheduler...
+2019-01-03 22:46:23.695 [INFO ] org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Validating all active sessions...
+2019-01-03 22:46:23.695 [INFO ] org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Finished session validation.  No sessions were stopped.
+2019-01-03 23:46:23.742 [INFO ] org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Validating all active sessions...
+2019-01-03 23:46:23.742 [INFO ] org.apache.shiro.session.mgt.AbstractValidatingSessionManager - Finished session validation.  No sessions were stopped.

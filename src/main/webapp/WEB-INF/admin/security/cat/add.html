@@ -1,0 +1,111 @@
+﻿ #include("/WEB-INF/admin/common/header.html") 
+
+<body class="childrenBody">
+	<form class="layui-form layadd">
+	
+		</div>
+
+	 		<div class="layui-form-item">
+			<label class="layui-form-label">name:</label>
+			<div class="layui-input-block">
+				<input type="text"  class="layui-input " id="name" name="asNewsCat.name" lay-verify="required" >
+			</div>
+		</div>
+
+	 		<div class="layui-form-item">
+			<label class="layui-form-label">createTime:</label>
+			<div class="layui-input-block">
+				<input type="text"  class="layui-input " id="createTime" name="asNewsCat.createTime" lay-verify="required|datetime" >
+			</div>
+		</div>
+
+	 		<div class="layui-form-item">
+			<label class="layui-form-label">sort:</label>
+			<div class="layui-input-block">
+				<input type="text"  class="layui-input " id="sort" name="asNewsCat.sort" lay-verify="required" >
+			</div>
+		</div>
+
+	 		<div class="layui-form-item">
+			<label class="layui-form-label">updateTime:</label>
+			<div class="layui-input-block">
+				<input type="text"  class="layui-input " id="updateTime" name="asNewsCat.updateTime" lay-verify="required|datetime" >
+			</div>
+		</div>
+
+	 		<div class="layui-form-item">
+			<label class="layui-form-label">title:</label>
+			<div class="layui-input-block">
+				<input type="text"  class="layui-input " id="title" name="asNewsCat.title" lay-verify="required" >
+			</div>
+		</div>
+
+	 		<div class="layui-form-item">
+			<label class="layui-form-label">keyword:</label>
+			<div class="layui-input-block">
+				<input type="text"  class="layui-input " id="keyword" name="asNewsCat.keyword" lay-verify="required" >
+			</div>
+		</div>
+
+	 		<div class="layui-form-item">
+			<label class="layui-form-label">content:</label>
+			<div class="layui-input-block">
+				<input type="text"  class="layui-input " id="content" name="asNewsCat.content" lay-verify="required" >
+			</div>
+		</div>
+
+	
+		<div class="layui-form-item layui-affirm">
+			<button class="layui-btn" lay-submit="" id="useradd"  lay-filter="useradd">确定</button>    	
+		</div>
+ </form>
+ <script type="text/javascript" src="#(BASE_PATH)/static/layui/layui.js"></script>
+<script >
+
+layui.use(['laydate','form','jquery','table'],function(){
+		 var form = layui.form,
+		 	$ = layui.jquery,
+		 	table = layui.table,
+		 	laydate=layui.laydate;
+			
+		laydate.render({ 
+		  elem: '#createTime'
+		  ,type: 'datetime'
+		});
+		laydate.render({ 
+		  elem: '#updateTime'
+		  ,type: 'datetime'
+		});
+
+    	      //添加
+    		  form.on('submit(useradd)', function(data) {
+    			  $.post('#(currentURL)/save',data.field,function(msg){
+     	    		 if(msg.code==0){
+     	    			 
+     	    			 layer.msg(msg.msg, {time: 1000},function(){
+     	    				parent.layer.closeAll();
+     	    				parent.tableReload();
+     	    			 });  			
+     	    		 }else{
+     	    			
+     	    			 layer.open({
+     	    			        type: 1,				       
+     	    			        id: 'message',
+     	    			        content: '<div style="padding: 20px 100px;">'+ msg.message +'</div>',
+     	    			        btn: '确定',
+     	    			        btnAlign: 'c',
+     	    			        shade: 0.4 ,
+     	    			        yes: function(){
+     	    			         layer.closeAll();
+     	    			        }
+     	    			    });
+     	    		 }		 
+     	    	  });
+     	          return false;
+    		    });
+    	      
+})
+
+</script>
+</body>
+</html>

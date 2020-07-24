@@ -1,0 +1,5 @@
+后端的使用
+SettingService.gSettingGet("xxx");
+
+前端的使用方法
+#(gSettingGet('title'))

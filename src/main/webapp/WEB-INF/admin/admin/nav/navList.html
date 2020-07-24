@@ -1,0 +1,134 @@
+#include("/WEB-INF/admin/common/header.html")
+
+
+<body class="childrenBody">
+	<form class="layui-form layui-form-search">
+		<div class="layui-inline">
+		    <div class="layui-input-inline">
+            <label>菜单名称：</label>
+           
+		    </div>
+		    <div class="layui-input-inline">
+		     <input type="text"  class="layui-input " name="menuname">
+		    </div>
+		    <button class="layui-btn layui-search" lay-submit lay-filter="menusearch"><i class="layui-icon">&#xe615;</i>查询</button>		   
+		     <a #shiroHasPermission('security:menu:add') class="layui-btn layui-add" ><i class="layui-icon"></i>添加</a>	
+		</div>
+	</form>	
+	<div class="layui-form  data-table-Wrapper">
+		<a  onclick="tableReload()"></a>
+		<table  id="menu" lay-filter="menu"></table>		
+		<script type="text/html" id="operation">
+			<div class="operation">
+				<a #shiroHasPermission('security:menu:edit') class="view" href="javascript:;"  lay-event="edit"> 编辑</a>
+				<a #shiroHasPermission('security:menu:delete') class="view" href="javascript:;"  lay-event="delete"> 删除</a>
+			</div>
+		</script>
+	</div>
+	
+	<script type="text/javascript" src="#(BASE_PATH)/static/layuiadmin/layui/layui.js"></script>
+	<script>
+	var tableIns;
+	layui.use(['table','laydate','form','jquery','treeGrid'],function(){
+		var table = layui.table,
+		 	form = layui.form,
+		 	$ = layui.jquery;
+			
+		 var treeGrid = layui.treeGrid; //很重要
+		
+		   tableIns = treeGrid.render({
+		        elem: '#menu',
+		        height: 'full-90', //容器高度
+		        url: '#(BASE_PATH)/admin/nav/pageJson',
+		        page: false,
+		        limit:19,
+		        treeId:'id',
+	        	treeUpId:'upid',
+	        	treeShowName:'name',
+		        cellMinWidth: 80,
+		        id: 'menu',
+		        cols: [[
+		                {field: 'id', title: 'id',unresize:true, width:120},
+		                {field: 'name', title: '菜单名称',unresize:true},
+		                //{field: 'description', title: '菜单描述',unresize:true},
+		                {field: 'parentName', title: '上级菜单',unresize:true},
+		                {field: 'dateline', title: '创建时间',unresize:true},
+		                {title: '操作', toolbar: '#operation',width:162,unresize:true},
+		                ]],  
+		               
+		        loading: true,
+		    });
+		 
+		  //查询
+		  form.on('submit(menusearch)', function(data) {
+			  console.log("data:"+data)
+		        tableIns.reload({
+		            where: data.field
+		        });		       
+		        return false; 
+		    });
+	
+		  //添加
+		  $(".layui-add").click(function(){
+			  layer.load();
+              layer.open({
+                  title: "添加菜单",
+                  type: 2,
+                  shade: 0.4,
+                  content: '#(BASE_PATH)/admin/nav/add',
+                  area: ['520px', '550px'],
+                  shadeClose: true,   
+                  cancel :function(){
+                  	tableIns.reload({})
+                  },
+                  success: function(layero, index){
+                	  layer.closeAll('loading');
+                  }
+              	});             				
+			 })  
+			 
+	 	  //监听工具条
+		  treeGrid.on('tool(menu)', function(obj){
+		    var data = obj.data;
+		    var id=data.id;
+		    if(obj.event === 'edit'){ 
+		    	layer.load();
+	              layer.open({
+	                  title: "修改菜单",
+	                  type: 2,
+	                  shade: 0.4,
+	                  content: '#(BASE_PATH)/security/menu/edit/'+id,
+	                  area: ['520px', '550px'],
+	                  shadeClose: true,   
+	                  cancel :function(){
+	                  	tableIns.reload({})
+	                  },
+	                  success: function(layero, index){
+	                	  layer.closeAll('loading');
+	                  }
+	              });           
+	  			
+		    }else if(obj.event === 'delete'){
+		    	layer.confirm('确认要删除吗？', {
+		            btn : [ '确定', '取消' ]
+		        }, function(index) {
+		        	$.ajax({
+		        		 type:'get',	
+		        		 url:'#(BASE_PATH)/security/menu/delete/'+id,       		  		       		  		       		 
+			       		 success:function(msg){
+			       			obj.del();			       		
+			       			layer.msg("删除成功", {time: 1000});
+			       			tableIns.reload();
+			       		 }
+		       	  }) 
+		        }); 
+		    }
+		 })
+		 
+	})
+	function tableReload(){
+			tableIns.reload({});	
+		}
+	</script>
+</body>
+</html>

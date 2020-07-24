@@ -1,0 +1,16 @@
+jdbcUrl = jdbc:mysql://39.105.90.2:33306/jzero-admin?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+user = root
+password = swust123456
+devMode = true
+
+
+swagger.base_package=zero.security.controller
+#plugins enable or disable
+
+schedule  =false
+mqtt = false
+aliyunMqtt = false
+
+jzero.zbus = false
+
+#请写入绝对路径

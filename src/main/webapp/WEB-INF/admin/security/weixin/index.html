@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>微信支付</title>
+<style>
+*{margin:0;padding:0;}
+.cadBody{width:100%;background:#eee;}
+.withBg{width:70%;margin:50px auto;background:#fff;padding:80px 0;}
+.orderNumber{width:70%;margin:20px auto;font-size:16px;letter-spacing:1px;}
+.money{color:red;font-size:20px;font-weight:600;vertical-align: middle;}
+hr{border:none;width:90%;margin:40px auto;height:1px;background:#eee;}
+.tishi{color:#fff;background:#44b549;display:inline-block;width:300px;padding:10px 0;text-align:center;
+position:relative;/* left:50%;margin-left:-150px; */
+top:20px;}
+#tishi{text-align:center;}
+#tishi a{color:#333;}
+</style>
+</head>
+<body class='cadBody'>
+<script type="text/javascript" src="${base}/statics/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="${base}/statics/js/jquery.qrcode.min.js"></script>
+<script language="javascript">
+
+    $(function(){
+        var codeUrl = '${QRCode}';//后端传的二维码url
+        $("#QRCode").qrcode({ 
+            render: "canvas", //table方式 
+            width: 240, //宽度 
+            height:240, //高度 
+            text: codeUrl //任意内容 
+        }); 
+    });
+</script>
+<div class='withBg'>
+	<div class='orderNumber'>
+	支付编号：${payLogSn}
+	</div>
+	<div class='orderNumber'>
+	支付金额：
+	<span class='money'>￥${payMoney}</span>
+	</div>
+	<hr>
+	<div id='tishi'>
+		<div id="QRCode" style="width: 240px;height: 240px;margin: 0px auto;border:1px solid #eee;"></div>
+		
+		<div class='tishi'>
+		打开手机微信App，扫一扫完成支付！
+		</div>
+	</div>
+	
+</div>
+<script>
+var times=60;          
+var timer=setInterval(function(){ 
+	
+	 $.ajax({
+	url:'${base}/payment/checkOrderStatus.jhtml',
+	type:"post",
+	data:{
+		payOrderSn:${payLogSn}
+	},
+	success:function(res){
+		times--;
+		if(times==0){
+			clearInterval(timer);
+			$("#tishi").html('<a href="#">支付超时，请返回订单重试</a>')	 
+		}
+		 if(res.status == '1') {                 
+			clearInterval(timer);
+			$("#tishi").html('<a href="#">支付成功，请返回订单页面</a>')	 
+		 } else if(res.status == '2') {
+			clearInterval(timer);
+			$("#tishi").html('<a href="#">支付失败，请返回订单重试</a>')				 
+		 }
+
+	}	
+}) 
+}, 3000); 
+	
+	
+</script>
+</body>
+</html>

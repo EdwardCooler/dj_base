@@ -1,0 +1,71 @@
+#include("/WEB-INF/admin/common/header.html")
+<body class="tio-home-page">
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-header">系统情况</div>
+					<div class="layui-col-md12">
+						<div class="layui-card">
+
+							<div class="layui-card-body layui-text">
+								<table class="layui-table">
+									<colgroup>
+										<col width="120">
+										<col>
+									</colgroup>
+									<tbody>
+										<tr>
+											<td>系统名称</td>
+											<td>
+												#(gSettingGet('title')??)
+											</td>
+										</tr>
+										<tr>
+											<td>JAVA版本</td>
+											<td>
+												#(javaVersion??)
+											</td>
+										</tr>
+										<tr>
+											<td>JAVA路径</td>
+											<td>
+												#(javaHome??)
+											</td>
+										</tr>
+										<tr>
+											<td>操作系统名称</td>
+											<td>
+												#(osName??)
+											</td>
+										</tr>
+										<tr>
+											<td>操作系统构架</td>
+											<td>
+												#(osArch??)
+											</td>
+										</tr>
+										<tr>
+											<td>Server信息</td>
+											<td>
+												#(serverInfo??)
+											</td>
+										</tr>
+										<tr>
+											<td>Server版本</td>
+											<td>
+												#(servletVersion??)
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="#(BASE_PATH)/static/layuiadmin/layui/layui.js"></script>
+</body>
+</html>

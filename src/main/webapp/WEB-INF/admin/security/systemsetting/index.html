@@ -1,0 +1,189 @@
+#include("/WEB-INF/admin/common/header.html")
+<body class="childrenBody platformIndex">
+	<form class="layui-form layadd">
+		<div class="layui-form-item">
+			<label class="layui-form-label">网站名称:</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input " name="asCommonSetting.website_name" lay-verify="required" value='#(gSettingGet("website_name"))'>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">网站网址：</label>
+			<div class="layui-input-block">
+				<input type="text" lay-verify="required" name="asCommonSetting.website_URL" placeholder="" autocomplete="off" class="layui-input"
+				 value="#(gSettingGet('website_URL'))">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">logo:</label>
+			<div class="layui-input-inline">
+				<input name="asCommonSetting.website_logo" lay-verify="required" id="gSlogo" placeholder="图片地址" value="#(gSettingGet('website_logo'))"
+				 class="layui-input">
+			</div>
+			<div class="layui-input-inline layui-btn-container" style="width: auto;">
+				<button id="hukou" type="button" class="layui-btn layui-btn-primary">
+					<i class="layui-icon"></i>上传图片
+				</button>
+			</div>
+		</div>
+
+		<div class="layui-form-item" id='headerImg'>
+			<label class="layui-form-label">logo图片:</label>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">联系地址:</label>
+			<div class="layui-input-block">
+				<input type="text" lay-verify="required" name="asCommonSetting.website_contact_address" placeholder="" autocomplete="off"
+				 class="layui-input" value="#(gSettingGet('website_contact_address'))">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">联系电话:</label>
+			<div class="layui-input-block ">
+				<input type="text" class="layui-input " name="asCommonSetting.website_contact_phone" lay-verify="required" value="#(gSettingGet('website_contact_phone'))">
+			</div>
+		</div>
+
+
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">邮政编码:</label>
+			<div class="layui-input-block">
+				<input type="num" class="layui-input " name="asCommonSetting.postal_code" lay-verify="required" value="#(gSettingGet('postal_code'))">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">E-mail:</label>
+			<div class="layui-input-block">
+				<input type="num" class="layui-input " name="asCommonSetting.website_e-mail" lay-verify="required|email" value="#(gSettingGet('website_e-mail'))">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">备案编号:</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input " name="asCommonSetting.website_record_number" lay-verify="required" value="#(gSettingGet('website_record_number'))">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">是否网站开启:</label>
+			<div class="layui-input-block">
+				<input type="radio" name="asCommonSetting.website_open" value=0 title="开启" checked="">
+				<input type="radio" name="asCommonSetting.website_open" value=1 title="关闭">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">网站关闭原因描述:</label>
+			<div class="layui-input-block">
+				<textarea rows="7" cols="50" name="asCommonSetting.website_close_reason">#(gSettingGet('website_close_reason'))</textarea>
+			</div>
+		</div>
+
+		<div class="layui-table-diaglo">
+			<table class="layui-hide" id="useraddTable" lay-filter="useraddTable" lay-data="{id: 'useraddTable'}"></table>
+		</div>
+
+		<!-- <input type="hidden" name="orderIndexs" value="" id="ids"> -->
+		<div class="layui-form-item layui-affirm suer-s">
+			<button class="layui-btn" lay-submit="useradd" id="useradd" lay-filter="useradd">确定</button>
+		</div>
+	</form>
+	<script type="text/javascript" src="#(BASE_PATH)/static/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript">
+		var logo = $("#gSlogo").val();
+		if (logo != null) {
+			$("#headerImg").show();
+			$("#headerImg").append(
+				'<div class="layui-upload-list layui-inline"><img class="layui-upload-img avatarUploadImg" style="width:90px;" src="#(BASE_PATH)' +
+				logo + '"></div>');
+			$("#LAY_avatarSrc").val(logo);
+		} else {
+			$("#LAY_avatarSrc").val('http://');
+		}
+	</script>
+	<script type="text/javascript">
+		var $;
+		layui.config({
+			base: '#(BASE_PATH)/static/layuiadmin/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'table', 'form', 'laydate', 'upload'], function() {
+			var admin = layui.admin,
+				table = layui.table,
+				form = layui.form,
+				laydate = layui.laydate,
+				upload = layui.upload,
+				index = parent.layer.getFrameIndex(window.name);
+			$ = layui.$;
+			//自定义验证规则
+			form.verify({
+				english: [/[a-zA-Z]$/, '只能输入英文字符']
+			});
+
+			//普通图片上传
+			var uploadInst = layui.upload.render({
+				elem: '#hukou',
+				url: '#(BASE_PATH)/file/image/upload/picUpload',
+				before: function(obj) {
+					//预读本地文件示例，不支持ie8
+					obj.preview(function(index, file, result) {
+						var fileSize = (file.size / (1024 * 1024)).toFixed(2); //图片大小，单位M
+						if (fileSize < 3) {
+							$('#hukouImg').attr('src', result); //图片链接（base64）
+						}
+					});
+				},
+				done: function(res) {
+					if (res.error == -1) { //上传失败
+						layer.msg(res.message);
+					} else { //上传成功
+						$("#hukouImgVal").val(res.filename);
+						$("#asCommonSettingimage").val(res.filename);
+						$("#headerImg").html('<label class="layui-form-label">logo图片:</label>');
+						$("#gSlogo").val(res.filename);
+						$("#headerImg").append(
+							'<div class="layui-upload-list layui-inline"><img class="layui-upload-img avatarUploadImg" style="width:90px;" src="#(BASE_PATH)' +
+							res.filename + '"></div>');
+						$("#headerImg").show();
+					}
+				},
+				error: function() {
+					//演示失败状态，并实现重传
+					var demoText = $('#hukouText');
+					demoText.html(
+						'<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+					demoText.find('.demo-reload').on('click', function() {
+						uploadInst.upload();
+					});
+				}
+			});
+
+			//添加
+			form.on('submit(useradd)', function(data) {
+				delete data.field.file; 
+				//console.log(data.field);
+				admin.req({
+					type: 'POST',
+					url: '#(currentURL)/update/',
+					data: data.field,
+					done: function(data) {
+						if (data.code == "0") {
+							layer.msg(data.msg, {
+								time: 1000
+							}, function() {});
+						} else {
+
+						}
+					}
+				});
+				return false;
+			});
+		})
+	</script>

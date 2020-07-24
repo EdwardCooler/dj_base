@@ -1,0 +1,310 @@
+#include("/WEB-INF/admin/common/headerNews.html")
+<body>
+<script type="text/javascript">  
+ 	$(document).ready(function () {
+ 		$(window).resize(function() {
+ 	  	  	init_slider();
+   	});
+
+ 	  	init_slider();
+ 	  	
+	$(".picScroll-left").slide({ 
+		mainCell: ".bd ul",
+		effect: "leftLoop",
+		autoPlay: true,
+		scroll: 1,
+		vis: 3,
+		mouseOverStop: true
+	});
+
+ 	  	init_img();
+ 	  	//marquee("tbDonateTab");
+	donateMsg();
+	msgScroll();
+});
+ 	
+ 	function init_slider(){
+ 		var tempWidth = ($(window).width() - 1024) / 2;
+ 		$(".picScroll-left").css("marginLeft", - (1024 -tempWidth));
+ 		$(".slider_fg").css("left", - (1024 -tempWidth));
+ 	}
+ 	
+function init_img(){
+	$('img[path]').each(function(){
+
+		var obj = $(this);
+		if(obj.attr('path')==''){
+			$('<span>暂无'+obj.attr('alt')+'！</span>').insertAfter(obj);
+			obj.remove();
+		}else{
+			var cover = $('<div style="height:0px;overflow:hidden;"/>').insertAfter(obj);
+			$('<img src="'+obj.attr('path')+'"/>').load(function(){
+				var pobj = obj.parent();
+				var pwidth = pobj.width();
+				var	pheight = pobj.height();
+				var	temp = $(this);
+				if(pwidth/pheight < temp.width()/temp.height()){
+					temp.height(pheight);
+					temp.css('margin','0px 0px 0px '+((pwidth-temp.width())/2)+'px');
+				}else{
+					temp.width(pwidth);
+					temp.css('margin',((pheight-temp.height())/2)+'px 0px 0px 0px');
+				}
+				obj.replaceWith(temp);
+				cover.remove();
+			}).error(function(e){
+				obj.parent().css({'color':'#333333','background-color':'#eeeeee'});
+				$('<span>'+obj.attr('alt')+'加载失败！</span>').insertAfter(obj);
+				obj.remove();
+				cover.remove();
+			}).appendTo(cover);
+		}
+	});
+}
+</script> 	
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#btnSearch").click(function(){
+			window.location.href="../search?key="+$("#searchText").val();
+
+		});
+		
+		$(".nav .child").each(function(){
+			var maxWidth = $(this).parent().outerWidth();
+			var totalHeight = 0;
+			$(this).find("a").each(function(){
+				var tempWidth = $(this).outerWidth();
+				if(tempWidth >  maxWidth){
+					maxWidth = tempWidth;
+				}
+				
+				totalHeight += $(this).outerHeight();
+			});
+			$(this).find("li").width(maxWidth);
+			$(this).width(maxWidth + 5);
+			$(this).height(totalHeight);
+		});
+	})
+</script>
+  	<div class="divMain">
+  		<div class="divSlider">
+			<div class="picScroll-left">
+				<div class="bd">
+					<ul class="picList">
+						<li>
+							<img src="" path="#(BASE_PATH)/static/image/news/20170919174314_479.jpg"/>
+						</li>
+						<li>
+							<img src="" path="#(BASE_PATH)/static/image/news/20170919174251_959.jpg"/>
+						</li>
+						<li>
+							<img src="" path="#(BASE_PATH)/static/image/news/20170919174228_321.jpg"/>
+						</li>
+					</ul>
+				</div>
+  				<div class="slider_fg">
+  					<div class="divCover"></div>
+  					<div></div>
+  					<div class="divCover"></div>
+  				</div>
+			</div>
+		</div>
+  		
+		<div style="width: 1024px;margin: 0 auto;border-top: 10px solid #005faf;height: 290px;overflow: hidden;background-color: #005faf;">
+			<!-- 新闻中心-->
+			<div class="divBox" style="background-color:#fff">
+  				<div class="divHeader">
+  					<span class="text_title">新闻中心</span>
+  					<a class="btn_more" href="#(BASE_PATH)/index/newsList?catid=1&news_cat_id=1">
+  						<span>更多</span>
+  						<i></i>
+  					</a>
+  				</div>
+  				<div class="divContent">
+					<div class="pic">
+						<img path="#(BASE_PATH)/static/image/news/20171013092206_175.jpg"/>
+					</div>
+  					<ul>
+  						<li style="display:none"></li>
+  						#for(content:contents)
+  						<li class="c2">
+  							<a href="#(BASE_PATH)/index/newsContent?contentid=#(content.id)&news_cat_id=#(content.news_cat_id)">
+  								<span class="text_time2">#date(content.createTime,"MM-dd")</span>
+  								<span class="text_line2">#(content.title)</span>
+  							</a>
+  						</li>
+  						#end
+  					</ul>
+  				</div>
+  			</div>
+			<script type="text/javascript">
+ 				$(document).ready(function(){
+ 					getDonationRecord();
+ 				});
+				function getStrLength(str) {
+					var cArr = str.match(/[^\x00-\xff]/ig);
+					return str.length + (cArr == null ? 0 : cArr.length);
+				}
+ 				function getDonationRecord() {
+				    for(var i=0;i<=10;i++){
+                        $('#tbDonateTab').append('<tr>'
+                            + '<td width="120px" style="vertical-align: top"><span style="display: block;height: 36px;line-height: 36px;width: 100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">张三</span></td>'
+                            + '<td width="120px" style="vertical-align: top">幼儿园</td>'
+                            + '<td width="120px" style="vertical-align: top">2018-10-31</td></tr>');
+					}
+				}
+			</script>
+  			<!-- 捐赠鸣谢 -->
+			<div class="divDonate">
+  				<div class="divHeader" style="background-color:#005faf">
+  					<span class="text_title">捐赠鸣谢</span>
+  				</div>
+				<table class="tbDonate" style="background-color:#005faf">
+					<tr>
+						<th width="120px">姓名</th>
+						<th width="120px">班级</th>
+						<th width="120px">日期</th>
+					</tr>
+				</table>
+				<div class="table_body" style="overflow: hidden;">
+				<table class="tbDonate" id="tbDonateTab" style="font-size: 12px">
+  				</table>
+               	</div>
+			</div>
+		</div>
+<script type="text/javascript">
+	function marquee(id){
+		var container=document.getElementById(id);
+		var speed1 = arguments[1] || 50, //速度
+		delta = 0,//当前滚动的位置
+		critical = container.offsetHeight;//临界点
+		var rolling = function(){
+			delta == -critical ? delta = 0: delta--;
+			container.style.marginTop = delta + "px";
+		}
+		var timer = setInterval(rolling,speed1)//设置定时器
+		container.onmouseover=function() {clearInterval(timer)}//鼠标移到marquee上时，清除定时器，停止滚动
+		container.onmouseout=function() {timer=setInterval(rolling,speed1)}//鼠标移开时重设定时器
+	}
+	var donateTimer;
+	function donateMsg(){
+		   donateTimer=setInterval("msgScroll()",4000);
+		   $("#tbDonateTab").mouseenter(function(){
+			   clearInterval(donateTimer);
+		   }).mouseleave(function(){
+			   donateTimer=setInterval("msgScroll()",3000);
+		   });
+	}
+	function msgScroll(){
+		   $("#tbDonateTab").stop(true,true).animate({
+			   marginTop:'-30px'
+		   },1000,function(){
+			   $("#tbDonateTab").css('margin-top','0');
+			   $("#tbDonateTab").find("tbody").append($("#tbDonateTab").find('tr:first'));
+		   });
+	}
+
+</script>
+		<div style="width: 1024px;margin: 0 auto;height: 290px;overflow: hidden;background-color: #edf1f5;">
+			<!-- 通知公告 -->
+			<div class="divBox" style="background-color:#fff">
+  				<div class="divHeader">
+  					<span class="text_title">通知公告</span>
+  					<a class="btn_more" href="" target="_blank">
+  						<span>更多</span>
+  						<i></i>
+  					</a>
+  				</div>
+  				<div class="divContent">
+					<div class="pic">
+						<img path="#(BASE_PATH)/static/image/news/20170919175846_669.jpg"/>
+					</div>
+  					<ul>
+  						<li class="c2" >
+  							<a href="" target="_blank">
+  								<span style="margin-left:10px\9;" class="text_time2">05-31</span>
+  								<span class="text_line2">关于授予马壮等41位同志第三届中国科大-兴业证券管理服务奖的决定</span>
+  							</a>
+  						</li>
+  						<li class="c2" >
+  							<a href="" target="_blank">
+  								<span  class="text_time2">05-31</span>
+  								<span class="text_line2">关于授予黄稚新等82位同志第十三届杨亚基金-爱岗敬业奖的决定</span>
+  							</a>
+  						</li>
+  						<li class="c2" >
+  							<a href="" target="_blank">
+  								<span  class="text_time2">05-31</span>
+  								<span class="text_line2">关于授予徐飞、曾文第三届杨亚基金人文精神教育奖的决定</span>
+  							</a>
+  						</li>
+  						<li class="c2" >
+  							<a href="" target="_blank">
+  								<span  class="text_time2">05-03</span>
+  								<span class="text_line2">关于开展“感恩母校”2017年毕业生首次捐赠的倡议</span>
+  							</a>
+  						</li>
+  						<li class="c2" style="border: 0;">
+  							<a href="" target="_blank">
+  								<span  class="text_time2">01-13</span>
+  								<span class="text_line2">关于中国科学技术大学2016届“感恩母校”毕业生首次捐赠的公示</span>
+  							</a>
+  						</li>
+  					</ul>
+  				</div>
+  			</div>
+  			<div class="divOthers">
+  				<table style="border-collapse: collapse;width: 100%;height: 100%">
+  					<tr>
+  						<td>
+  							<a class="divBtn" href="" target="_blank">
+  								<img width="75px" height="50px" src="#(BASE_PATH)/static/image/news/btn1.png">
+  								<span>我要捐赠</span>
+  							</a>
+  						</td>
+  						<td>
+  							<a class="divBtn" href="../item?id=2023" target="_blank">
+  								<img width="75px" height="50px" src="#(BASE_PATH)/static/image/news/btn2.png">
+  								<span>筹资项目</span>
+  							</a>
+  						</td>
+  					</tr>
+  					<tr>
+  						<td>
+  							<a class="divBtn" href="../item?id=2024" target="_blank">
+  								<img width="75px" height="50px" src="#(BASE_PATH)/static/image/news/btn3.png">
+  								<span>捐赠指南</span>
+  							</a>
+  						</td>
+  						<td>
+  							<a class="divBtn" href="../cnt?id=5581" target="_blank">
+  								<img width="75px" height="50px" src="#(BASE_PATH)/static/image/news/btn4.png">
+  								<span>关于我们</span>
+  							</a>
+  						</td>
+  					</tr>
+  				</table>
+  			</div>
+		</div>
+  		 		
+  		<div style="width: 1024px;height: 90px;margin: 0 auto;">
+  		 	<!-- 友情链接 -->
+  			<div class="divBox" style="height: 71px;padding-bottom: 20px;width: 100%;border: 0;">
+ 				<div class="divHeader">
+ 					<span class="text_title">友情链接</span>
+  				</div>
+  				<div class="divContent">
+  					<ul class="friend_url">
+						#for(asFriendshipLink:asFriendshipLinks)
+						<li class="c4">
+							<a href="#(asFriendshipLink.url)" target="_blank">#(asFriendshipLink.title)</a>
+  						</li>
+  						#end
+  					</ul>
+  				</div>
+  			</div>
+  		</div>
+	
+  	</div>
+  </body>
+</html>

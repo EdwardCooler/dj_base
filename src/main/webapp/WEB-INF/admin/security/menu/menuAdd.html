@@ -1,0 +1,127 @@
+#include("/WEB-INF/admin/common/header.html")
+<body class="childrenBody" id="orgAdd" >
+	<form class="layui-form">
+		<div class="layui-form-item">
+		    <label class="layui-form-label">菜单名称：</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="menu.name" lay-verify="required" placeholder="请输入内容" class="layui-input" value="">
+		    </div>
+		 </div>
+		  <div class="layui-form-item">
+		      <label class="layui-form-label">上级菜单：</label>
+		      <div class="layui-input-block">
+		        <select name="menu.parent_menu" lay-verify="" lay-search="">
+		          <option value="">根 目 录</option>
+		          #for(list:list)
+		          <option value="#(list.id)">#(list.name)</option>
+		         #end
+		        </select>
+		      </div>
+		  </div>
+		  <div class="layui-form-item">
+		      <label class="layui-form-label">菜单类型：</label>
+		      <div class="layui-input-block">
+		        <select name="menu.type" lay-verify="" lay-search="" lay-filter="menuType">
+		          <option value="">直接选择或搜索选择</option>
+		          <option value="0">目录</option>
+		            <option value="1">菜单</option>
+		              <option value="2">按钮</option>
+		        </select>
+		      </div>
+		  </div>
+		 <div class="layui-form-item">
+		    <label class="layui-form-label">url地址：</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="menu.url"  placeholder="请输入内容" class="layui-input" value="">
+		    </div>
+		  </div>
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">排序：</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="menu.orderby" lay-verify="required" placeholder="请输入内容" class="layui-input" value="">
+		    </div>
+		  </div>
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">权限标识：</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="menu.prems" lay-verify="required" placeholder="请输入内容" class="layui-input" value="">
+		    </div>
+		  </div>
+		   <div class="layui-form-item layui-form-text">
+		    <label class="layui-form-label">菜单描述：</label>
+		    <div class="layui-input-block">
+		      <textarea placeholder="请输入内容" class="layui-textarea" name="menu.description"></textarea>
+		    </div>
+		  </div>
+		  <div class="layui-form-item layui-form-text iconChoose">
+		    <label class="layui-form-label">图标选择：</label>
+		    <div class="layui-input-block">
+		      <input type="text" name="menu.iconcss" lay-verify="" placeholder="请输入图标码" class="layui-input" value="">
+		      <a class="layui-btn layui-btn-warm layui-btn-xs" style="margin-top:5px;" href="#(BASE_PATH)/static/layuiadmin/layui/icon/icon.html" target="_blank" >查看图标详情</a>
+		    </div>
+		  </div>
+		  <hr class="rollHr">
+		<div class="layui-form-item layui-affirm bouncedFooter">
+			<a class="layui-btn bFffButton" id="peoEditcancelButton">取消</a> 
+			<a class="layui-btn bFaaButton" lay-submit=""  lay-filter="menuAdd">确定</a>    	
+		</div>
+	</form>
+
+<script >
+layui.use(['laydate','form','jquery','table', 'layedit'],function(){
+    	 var form = layui.form,
+		 	$ = layui.jquery,
+		 	table = layui.table,
+		 	laydate=layui.laydate
+		 	,layedit = layui.layedit;
+    	 
+    	
+    	 $("#peoEditcancelButton").click(function(){
+ 			var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+ 			console.log(index);
+ 			parent.layer.close(index); //再执行关闭   
+ 		})
+ 		//监听菜单类型
+ 		form.on('select(menuType)', function(data){
+ 			console.log(data.value);
+		  if(data.value==2){//选中的是按钮
+			  $(".iconChoose").hide();
+		  }else{
+			  $(".iconChoose").show();
+		  }
+		}); 
+    	 //提交
+    	 form.on('submit(menuAdd)', function(data){
+ 		  	$.post('/security/menu/save',data.field,function(msg){
+ 				 if(msg.code=="0"){
+ 					 layer.msg(msg.msg, {time: 1000},function(){
+ 						 parent.location.reload()
+				  			var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+							parent.layer.close(index); //再执行关闭   
+ 					 }); 
+ 					
+ 				 }else{
+ 					
+ 					 layer.open({
+ 					        type: 1,				       
+ 					        id: 'message',
+ 					        content: '<div style="padding: 20px 100px;">'+ msg.msg +'</div>',
+ 					        btn: '确定',
+ 					        btnAlign: 'c',
+ 					        shade: 0.4 ,
+ 					        yes: function(){
+ 					         layer.closeAll();
+ 					        }
+ 					    });
+ 				 }		 
+ 			  });
+ 		    return false;
+ 		  });
+ 		  
+ 		 form.render();
+})
+
+</script>
+</body>
+</html>
+

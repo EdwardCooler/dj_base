@@ -1,0 +1,68 @@
+﻿#[[ #include("/WEB-INF/admin/common/header.html") ]]#
+
+<body class="childrenBody">
+	<form class="layui-form layadd">
+	
+	 #for (tableinfo:tableinfos)
+	 	<div class="layui-form-item">
+			#if(tableinfo.isPRI==1)	 		
+			<label class="layui-form-label">#(tableinfo.columnName):</label>
+			<div class="layui-input-block">
+				<input type="text"  class="layui-input " id="#(tableinfo.columnName)" name="#(modelClassname).#(tableinfo.columnName)" lay-verify="required#(tableinfo.filter)" >
+			</div>
+			#end
+		</div>
+	#end
+	
+		<div class="layui-form-item layui-affirm">
+			<button class="layui-btn" lay-submit="" id="useradd"  lay-filter="useradd">确定</button>    	
+		</div>
+ </form>
+<script type="text/javascript">
+layui.use(['laydate','form','jquery','table'],function(){
+		 var form = layui.form,
+		 	$ = layui.jquery,
+		 	table = layui.table,
+		 	laydate=layui.laydate;
+			
+ 	#for (tableinfo:tableinfos)
+	#if (tableinfo.hasTime??)
+		laydate.render({ 
+		  elem: '##(tableinfo.columnName)'
+		  ,type: 'datetime'
+		});
+	#end
+	#end
+
+    	      //添加
+    		  form.on('submit(useradd)', function(data) {
+    			  $.post('#[[#(currentURL)]]#/save',data.field,function(msg){
+     	    		 if(msg.code==0){
+     	    			 
+     	    			 layer.msg(msg.msg, {time: 1000},function(){
+     	    				parent.layer.closeAll();
+     	    				parent.tableReload();
+     	    			 });  			
+     	    		 }else{
+     	    			
+     	    			 layer.open({
+     	    			        type: 1,				       
+     	    			        id: 'message',
+     	    			        content: '<div style="padding: 20px 100px;">'+ msg.message +'</div>',
+     	    			        btn: '确定',
+     	    			        btnAlign: 'c',
+     	    			        shade: 0.4 ,
+     	    			        yes: function(){
+     	    			         layer.closeAll();
+     	    			        }
+     	    			    });
+     	    		 }		 
+     	    	  });
+     	          return false;
+    		    });
+    	      
+})
+
+</script>
+</body>
+</html>

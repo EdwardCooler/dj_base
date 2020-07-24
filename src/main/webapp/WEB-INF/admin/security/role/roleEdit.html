@@ -1,0 +1,115 @@
+#include("/WEB-INF/admin/common/header.html")
+<body class="childrenBody">
+	<form class="layui-form layadd">
+	    <input type="hidden" name="role.id" value="#(role.id)">
+		<div class="layui-form-item">
+			<label class="layui-form-label">角色名称：</label>
+			<div class="layui-input-block">
+				<input type="text"  class="layui-input " value="#(role.name)" name="role.name" lay-verify="required" >
+			</div>
+		</div>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">角色描述：</label>
+			<div class="layui-input-block">
+			<input type="text" lay-verify="required" name="role.description" value="#(role.description)"  placeholder="" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+	
+	<div class="layui-table-diaglo">	
+		<table  id="roleeditTable" lay-filter="roleeditTable"></table>
+	</div>
+	<script type="text/html" id="checkboxTpl">
+  		<input  type="checkbox" name="orderIndex" value="{{d.id}}" lay-skin="primary" {{ d.type == 0 ? 'disabled' : '' }} {{ d.LAY_CHECKED == 1 ? 'checked' : '' }}>
+	</script>
+	<script type="text/html" id="type">
+  		{{#("#")  if(d.type==1){ }}
+           	<a class='layui-btn layui-btn-sm'>菜单</a>
+		{{#("#")  }else if(d.type==0){ }}
+			<a class='layui-btn layui-btn-normal layui-btn-sm'>目录</a>
+		{{#("#")  }else{}}
+			<a class='layui-btn layui-btn-warm layui-btn-sm'>按钮</a>
+        {{#("#")  } }}
+	</script>
+  	<input type="hidden" name="orderIndexs" value="" id="ids">
+		<div class="layui-form-item layui-affirm">
+			<button class="layui-btn" lay-submit="" id="roleedit" lay-filter="roleedit">确定</button>    	
+		</div>
+ </form>
+ <script type="text/javascript" src="#(BASE_PATH)/static/layuiadmin/layui/layui.js"></script>
+<script >
+layui.config({
+    base: '#(BASE_PATH)/static/layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index','laydate','form','jquery','table','treeGrid'],function(){
+		 var form = layui.form,
+		 	$ = layui.jquery,
+		 	table = layui.table,
+		 	laydate=layui.laydate;
+		 var treeGrid = layui.treeGrid; //很重要
+		 
+		 treeGrid.render({
+ 		    elem: '#roleeditTable',
+	        	url:'#(BASE_PATH)/security/role/editPageJson?id='+#(role.id),
+	        	cellMinWidth: 80,
+	        	id: 'roleeditTable',
+	        	treeId:'id',
+	        	treeUpId:'parent_menu',
+	        	treeShowName:'name',
+		        cols: [[
+						{field: 'type',title: '', templet: '#checkboxTpl', width:50},
+		                {field: 'name', title: '权限名',unresize:true},
+		                { title: '类型',unresize:true, templet: '#type'},
+		                {field: 'description', title: '权限描述',unresize:true},
+		                ]],  
+		               done: function(res, curr, count) {
+		                                   
+		               },
+		        loading: true,
+ 		  });
+		 
+		 
+ 			//监听表格复选框选择
+			 $("#roleedit").click(function(){
+				 var ids = "";
+				 $("input[name=orderIndex]:checked").each(function(){
+					 ids += $(this).val()+","
+				 });
+				 if(ids.length > 0){
+					 ids = ids.substring(0,ids.length-1);
+				 }
+				 
+			     $("#ids").val(ids);
+			 }) 
+    	      //添加
+    		  form.on('submit(roleedit)', function(data) {
+    			  $.post('/security/role/update',data.field,function(msg){
+     	    		 if(msg.code=="0"){
+     	    			 layer.msg(msg.msg, {time: 1000},function(){
+     	    				parent.layer.closeAll();
+     	    				parent.tableReload();
+     	    			 });  			
+     	    		 }else{
+     	    			
+     	    			 layer.open({
+     	    			        type: 1,				       
+     	    			        id: 'message',
+     	    			        content: '<div style="padding: 20px 100px;">'+ msg.msg +'</div>',
+     	    			        btn: '确定',
+     	    			        btnAlign: 'c',
+     	    			        shade: 0.4 ,
+     	    			        yes: function(){
+     	    			         layer.closeAll();
+     	    			        }
+     	    			    });
+     	    		 }		 
+     	    	  });
+     	          return false;
+    		    });
+    	      
+})
+
+</script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+#include("/WEB-INF/admin/common/headerLogin.html")
+
+<body>
+<!--[if lte IE 7]>
+<style type="text/css">
+#errorie {position: fixed; top: 0; z-index: 100000; height: 30px; background: #FCF8E3;}
+#errorie div {width: 900px; margin: 0 auto; line-height: 30px; color: orange; font-size: 14px; text-align: center;}
+#errorie div a {color: #459f79;font-size: 14px;}
+#errorie div a:hover {text-decoration: underline;}
+</style>
+<div id="errorie"><div>您还在使用老掉牙的IE，请升级您的浏览器到 IE8以上版本 <a target="_blank" href="http://windows.microsoft.com/zh-cn/internet-explorer/ie-8-worldwide-languages">点击升级</a>&nbsp;&nbsp;强烈建议您更改换浏览器：<a href="http://down.tech.sina.com.cn/content/40975.html" target="_blank">谷歌 Chrome</a></div></div>
+<![endif]-->
+<style type="text/css">
+body {background: url(#(BASE_PATH)/#(loginBg)) no-repeat center center fixed;
+    -webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;}
+</style>
+<div class="main_box">
+	<h4 class="titleLogin">#(titleName)修改密码</h4>  
+	<form class="layui-form">
+	  
+	   <div class="layui-form-item">  
+	    <div class="layui-input-block">
+	      <input type="password" name="tel" id="tel" autocomplete="off" placeholder="电话" class="layui-input borderNone" lay-verify="required" >
+	    </div>
+	    <div>    	
+	    </div>
+	  </div>
+	  
+	  <div class="layui-form-item layui-form-item-checked">  
+	    <div class="layui-input-block">
+	      <input type="text" name="captcha"  autocomplete="off" placeholder="验证码" class="layui-input borderNone" lay-verify="required">
+	      <!-- <img id="captcha_img" alt="点击更换" title="点击更换" src="captcha" class="m"> -->
+	      <button type="button" class="layui-btn getCode">获取验证码</button>
+	    </div>	    
+	  </div>
+	  
+	  <div class="layui-form-item">  
+	    <div class="layui-input-block">
+	      <input type="text" name="newpassword" id="password"  autocomplete="off" placeholder="输入新密码" class="layui-input borderNone" lay-verify="required/password" >
+	    </div>	    
+	  </div>
+	  <div class="layui-form-item">  
+	    <div class="layui-input-block">
+	      <input type="text" name="newpasswordOnce"  autocomplete="off" placeholder="再次输入新密码" class="layui-input borderNone" lay-verify="required/rePassword" >
+	    </div>	    
+	  </div>
+	  
+	  <div class="layui-form-item layui-form-item-submit">
+	    <div class="layui-input-block">
+	      <button class="layui-btn" lay-submit="" lay-filter="loginBtn">修&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;改</button>
+	    </div>
+	  </div>
+  </form>
+
+</div>
+
+
+<script src="#(BASE_PATH)/static/layuiadmin/layui/layui.js"></script>
+<script src="#(BASE_PATH)/static/js/jquery.cookie.js"></script>
+<script>
+
+layui.config({
+	  dir: '#(BASE_PATH)/static/layuiadmin/layui/' //layui.js 所在路径（注意，如果是script单独引入layui.js，无需设定该参数。），一般情况下可以无视
+	  ,version: 1.0 //一般用于更新模块缓存，默认不开启。设为true即让浏览器不缓存。也可以设为一个固定的值，如：201610
+	  ,debug: true //用于开启调试模式，默认false，如果设为true，则JS模块的节点会保留在页面
+	});
+	
+var $ ;
+layui.use(['form','layer','jquery'], function(){
+	$ = layui.jquery,
+	form = layui.form,
+	layer=layui.layer;
+	
+    //表单验证
+    form.verify({
+		rePassword: function(value) {		    
+		    var pwd = $("#password").val();
+		    if (pwd !== value) 
+		      return "两次输入的密码不一致！";
+		},
+		
+	  	password: [
+	  		 /^.{6,14}$/
+		    ,'请输入请输入6-14位密码'
+		  ] 
+	})  
+	//监听提交
+	  form.on('submit(loginBtn)', function(data){
+		  $.post("#(BASE_PATH)/security/user/forgetPswSave",data.field,
+    		function(data,status){
+    			 if(status!="success"){
+    				layer.msg("修改失败！");
+    			}else{
+    				if(data.code!="0"){
+    					layer.msg(data.msg);
+    				}else{
+    					layer.msg('修改成功',{icon: 1,time: 1000},function(){
+    						//console.log(document.referrer)
+    						window.location.href="#(BASE_PATH)/admin/login";
+    					});   					   					
+    				}
+    			} 
+    			
+    			});
+	    return false;
+	  });
+	
+	//获取验证码倒计时 发送验证码
+	  var countdown=60;
+	  $('.getCode').on('click', function(){
+		  	if(countdown!=60)return;
+		  
+		     var _this = this;
+		     var tel = $('#tel').val();
+		     if((/^1[3|4|5|7|8|9][0-9]\d{4,8}$/.test(tel))){
+		     layer.prompt({
+		    	  formType: 1,
+		    	  content:'<img id="changeCaptcha" style="display:inline-block;border:1px solid #ccc;margin-top:-2px;height:36px;" onclick="changeCaptcha()" alt="点击更换" title="点击更换" src="#(BASE_PATH)/security/user/getReadomCode">&nbsp;<input type="text" class="layui-layer-input" style="display:inline-block"><script>changeCaptcha()<\/script>',
+		    	  title: '请输验证码'
+		    	}, function(value, index, elem){
+		    		var _layerindex = index;
+		    		console.log(_layerindex); 
+		    	  $.ajax({
+					  url:'#(BASE_PATH)/weixin/user/sendMess',
+					  data:{tel:tel,captcha:value},
+					  async:true,
+					  type:'get',
+					  contentType:'application/json',
+					  success:function(msg){	
+						  console.log(msg.code);
+						 	if(msg.error=='0'){//发送成功
+						 		layer.close(_layerindex);
+						 		settime(_this);
+						 	}else if(msg.error=='-9'){//图形验证码错误
+						 		//弹窗
+						 		layer.msg(msg.message);
+						 	}else{//电话号码格式不正确
+						 		layer.close(_layerindex);
+						 		layer.msg(msg.message);
+						 	}   			  			 
+					  }
+				  }) 
+				  
+		       }); 
+		     }
+			 else{
+				 layer.msg("手机号格式不对");
+				 }
+	  })
+	  
+	  
+	  function settime(obj) {
+		        if (countdown == 0) {
+		            $(obj).attr("disabled",false);
+		            $(obj).text("获取验证码").css({"color":"#fff","background":"#E72A16"});
+		            countdown = 60;
+		            return;
+		        } else {
+		            $(obj).attr("disabled",true);
+		            $(obj).text("" + countdown + " s 重新发送").css({"color":"#333","background":"#f5f5f5"});
+		            countdown--;
+		        }
+		        setTimeout(function() {settime(obj) } ,1000)
+		    }
+	  
+});
+
+
+function changeCaptcha() {
+	document.getElementById("changeCaptcha").src = "#(BASE_PATH)/security/user/getReadomCode?"+new Date().getTime();
+}
+</script>
+</body>
+</html>
